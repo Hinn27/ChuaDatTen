@@ -1,159 +1,121 @@
-# Turborepo starter
+# 🍔 Refood - Food Rescue E-Commerce Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+> **Monorepo gồm:**
+>
+> - **Backend:** Node.js
+> - **Web Admin:** React Vite
+> - **Mobile App:** Expo
 
-## Using this example
+> **Lưu ý:** Để đảm bảo codebase sạch, đồng nhất và tận dụng tối đa AI (Cursor/GitHub Copilot), **mọi thành viên BẮT BUỘC** đọc kỹ và làm theo hướng dẫn dưới đây trước khi code.
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## 🤖 1. Hướng dẫn sử dụng AI Context Files
+
+Dự án là **Monorepo** với nhiều stack (Node.js, React, React Native). Nếu AI không được "dạy" đúng context, có thể sinh ra code sai (ví dụ: nhét `<div>` vào code Mobile).
+
+**ĐÃ CÓ SẴN** các file ngữ cảnh `AI_CONTEXT.md` ở từng thư mục để "huấn luyện" AI quy tắc code riêng cho từng phần.
+
+### Cách sử dụng:
+
+#### **Với Cursor IDE**
+
+- Cursor tự nhận diện file `.cursorrules` (có thể rename từ `AI_CONTEXT.md`).
+- Chỉ cần mở file code trong thư mục nào, Cursor sẽ tự áp dụng luật của thư mục đó.
+
+#### **Với GitHub Copilot / IntelliJ AI Assistant**
+
+- Khi mở khung Chat để nhờ AI viết code, hãy **@-mention** file `AI_CONTEXT.md` tương ứng với thư mục bạn đang làm việc.
+    - Ví dụ: Đang code App Mobile, gõ vào chat:
+        ```
+        @apps/mobile/AI_CONTEXT.md Viết cho tôi component hiển thị giỏ hàng bằng Zustand.
+        ```
+
+> ⚠️ **Quy tắc tối thượng:** Không nhờ AI viết code chung chung. **Luôn ép AI tuân thủ file Context** để giữ chuẩn đặt tên (camelCase, snake_case) và kiến trúc thư mục.
+
+---
+
+## 📝 2. Chuẩn hóa Commit với `.gitmessage`
+
+Dự án áp dụng **Conventional Commits** để dễ review và theo dõi lịch sử. Đã có sẵn file `.gitmessage` ở thư mục gốc.
+
+### **Bước 1: Setup template commit (chỉ làm 1 lần)**
+
+Mở Terminal tại thư mục gốc và chạy:
+
+```bash
+git config --local commit.template .gitmessage
 ```
 
-## What's inside?
+### **Bước 2: Cách commit chuẩn**
 
-This Turborepo includes the following packages/apps:
+Từ giờ, **KHÔNG dùng** `git commit -m "..."`. Thay vào đó:
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+git commit
 ```
 
-Without global `turbo`, use your package manager:
+Lúc này, Terminal (hoặc VSCode/IntelliJ) sẽ tự động mở file template. Bạn chỉ cần:
 
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+- **Bỏ dấu # ở dòng đầu tiên và điền thông tin** (VD: `feat(mobile): add shopping cart UI`).
+- Điền thêm mô tả chi tiết ở phần [Body] nếu logic phức tạp.
+- Lưu file và đóng cửa sổ editor (nếu dùng Nano: Ctrl+O, Enter, Ctrl+X). Git sẽ tự động hoàn tất commit!
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## 🌿 3. Luồng làm việc Git (Branching Workflow)
 
-```sh
-turbo build --filter=docs
-```
+### **Quy tắc chung:**
 
-Without global `turbo`:
+- 🚫 **KHÔNG BAO GIỜ** code hay push trực tiếp lên nhánh `main` hoặc `develop`.
+- `main`: Nhánh production (chỉ Leader được merge).
+- `develop`: Nhánh gom code để test. **Tất cả thành viên phải rẽ nhánh từ đây.**
 
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### **Quy trình làm việc chuẩn:**
 
-### Develop
+1. **Đứng ở nhánh `develop` và pull code mới nhất:**
+    ```bash
+    git checkout develop
+    git pull origin develop
+    ```
+2. **Tạo nhánh làm việc mới:**
+    - Tên nhánh theo format: `<type>/<scope>-<tên-task>`
+    - Ví dụ: `feat/admin-login-page`, `fix/mobile-cart-bug`, `chore/web-update-readme`
+    - Lệnh tạo nhánh:
+        ```bash
+        git checkout -b feat/admin-login-page
+        ```
+3. **Code và Commit** (nhớ dùng `git commit` để bật template).
+4. **Đẩy code lên remote:**
+    ```bash
+    git push -u origin <tên-nhánh-của-bạn>
+    ```
+5. **Tạo Pull Request (PR) trên GitHub** để merge vào `develop`. **Nhờ thành viên khác review & approve.**
 
-To develop all apps and packages, run the following command:
+### **Chi tiết về đặt tên branch:**
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+| Loại (type) | Ý nghĩa                                     | Ví dụ                 |
+| ----------- | ------------------------------------------- | --------------------- |
+| feat        | Thêm mới tính năng                          | feat/mobile-cart      |
+| fix         | Sửa bug                                     | fix/web-login-bug     |
+| chore       | Công việc phụ trợ (update doc, config, ...) | chore/update-readme   |
+| refactor    | Cải tổ code, không đổi chức năng            | refactor/backend-auth |
+| test        | Thêm/sửa test                               | test/api-user         |
 
-```sh
-cd my-turborepo
-turbo dev
-```
+**scope**: Chỉ rõ module/phần ảnh hưởng (mobile, web, backend, admin, ...)
 
-Without global `turbo`, use your package manager:
+**tên-task**: Mô tả ngắn gọn task (bằng tiếng Anh hoặc Việt không dấu)
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+**Ví dụ tổng hợp:**
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+- `feat/mobile-cart-add`
+- `fix/web-login-bug`
+- `chore/backend-update-env`
+- `refactor/admin-user-table`
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+---
 
-```sh
-turbo dev --filter=web
-```
+## 📚 Tài liệu tham khảo
 
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
