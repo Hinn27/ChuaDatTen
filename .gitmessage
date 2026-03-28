@@ -1,0 +1,41 @@
+# <type>(<scope>): <subject>
+# |<----  Using a Maximum Of 50 Characters  ---->|
+
+# [Body] Môt tả chi tiết: Tại sao lại có sự thay đổi này? Logic giải quyết là gì?
+# (Bỏ trống nếu fix những lỗi quá nhỏ)
+
+# [Footer] Bổ sung thông tin (nếu có):
+# Tham chiếu tới Issue/Task trên Jira/GitHub (Ví dụ: Resolves: #123)
+
+# ---------------------------------------------------------
+# HƯỚNG DẪN VIẾT COMMIT (ĐỌC KỸ TRƯỚC KHI LƯU):
+#
+# 1. Định dạng <type> (Bắt buộc):
+#    feat     : Thêm một tính năng mới
+#    fix      : Sửa một lỗi (bug)
+#    refactor : Viết lại code nhưng không làm thay đổi logic/chức năng
+#    perf     : Cải thiện hiệu năng (tối ưu query, giảm size ảnh...)
+#    style    : Format code (thêm space, chấm phẩy, fix lỗi ESLint...)
+#    docs     : Thêm/Sửa tài liệu (README.md, comments...)
+#    chore    : Cập nhật build task, cài thêm thư viện (package.json...)
+#    revert   : Khôi phục lại một commit cũ
+#
+# 2. Định dạng <scope> cho Monorepo (Nên có):
+#    (backend) : API, Node.js, Services
+#    (admin)   : Web Admin (React Vite)
+#    (mobile)  : Mobile App (Expo)
+#    (db)      : Database, Supabase RLS, pgvector
+#    (ai)      : Prompt, LLM integration
+#    (root)    : Config chung (eslint, turbo, package.json tổng)
+#
+# 3. Định dạng <subject> (Bắt buộc):
+#    - Viết bằng tiếng Anh hoặc tiếng Việt (thống nhất trong team).
+#    - Động từ nguyên mẫu ở đầu câu (Ví dụ: "Add", "Fix", "Update").
+#    - KHÔNG viết hoa chữ cái đầu tiên (trừ danh từ riêng).
+#    - KHÔNG đặt dấu chấm "." ở cuối câu.
+#
+# VÍ DỤ CHUẨN:
+# feat(mobile): add Apple login button
+# fix(backend): resolve N+1 query problem in orders API
+# chore(root): install zustand for state management
+# ---------------------------------------------------------
