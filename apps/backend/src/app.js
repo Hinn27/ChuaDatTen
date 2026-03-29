@@ -1,9 +1,11 @@
+
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { errorHandler } from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import orderRoutes from './routes/order.routes.js';
+import semanticRoutes from './routes/semantic.routes.js';
 
 dotenv.config();
 
@@ -16,7 +18,9 @@ app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+
 app.use('/api/orders', orderRoutes);
+app.use('/api/semantic', semanticRoutes);
 
 // Error handler
 app.use(errorHandler);
