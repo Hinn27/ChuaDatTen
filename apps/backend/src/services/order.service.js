@@ -11,4 +11,3 @@ export async function checkoutOrder({ userId, items, total }) {
     if (result.error) throw new Error(result.error.message);
     return result.data;
 }
-}
