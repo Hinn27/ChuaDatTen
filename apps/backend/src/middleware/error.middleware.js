@@ -1,3 +1,7 @@
 // Global error handler
-
-// Example: export const errorHandler = ...
+export function errorHandler(err, req, res, next) {
+	console.error(err);
+	res.status(err.status || 500).json({
+		error: err.message || 'Đã có lỗi xảy ra',
+	});
+}

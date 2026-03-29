@@ -1,3 +1,0 @@
-// Auth business logic
-
-// Example: export const authenticate = ...
