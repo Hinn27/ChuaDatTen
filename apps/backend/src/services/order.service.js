@@ -1,24 +1,14 @@
 import { supabase } from '../config/supabase.js';
 
+// Sử dụng Supabase transaction (PostgREST) để đảm bảo tính nhất quán
 export async function checkoutOrder({ userId, items, total }) {
-    // Giả sử có bảng 'orders' và 'order_items' trong Supabase
-    const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert([{ user_id: userId, total }])
-        .select()
-        .single();
-    if (orderError) throw new Error(orderError.message);
-
-    const orderItems = items.map(item => ({
-        order_id: order.id,
-        product_id: item.productId,
-        quantity: item.quantity,
-        price: item.price
-    }));
-    const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItems);
-    if (itemsError) throw new Error(itemsError.message);
-
-    return order;
+    const client = supabase;
+    const result = await client.rpc('checkout_transaction', {
+        p_user_id: userId,
+        p_items: items,
+        p_total: total
+    });
+    if (result.error) throw new Error(result.error.message);
+    return result.data;
+}
 }
