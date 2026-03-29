@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --max-warnings 0",
+    "preview": "vite preview",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "firebase": "^12.11.0",
@@ -19,6 +20,8 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@eslint/js": "^9.39.4",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
     "@rolldown/plugin-babel": "^0.2.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -28,6 +31,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "typescript": "~5.9.2",
     "vite": "^8.0.1"
   }
 }
