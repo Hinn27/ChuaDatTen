@@ -6,6 +6,7 @@ import { errorHandler } from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import semanticRoutes from './routes/semantic.routes.js';
+import chatbotRoutes from './routes/chatbot.routes.js';
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api/orders', orderRoutes);
 app.use('/api/semantic', semanticRoutes);
+
+app.use('/api/chatbot', chatbotRoutes);
 
 // Error handler
 app.use(errorHandler);
