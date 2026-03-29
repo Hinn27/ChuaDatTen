@@ -1,10 +1,9 @@
-import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { supabase } from './config/supabase.js';
+import express from 'express';
+import { errorHandler } from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import orderRoutes from './routes/order.routes.js';
-import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
 
