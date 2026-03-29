@@ -1,0 +1,3 @@
+// Global error handler
+
+// Example: export const errorHandler = ...

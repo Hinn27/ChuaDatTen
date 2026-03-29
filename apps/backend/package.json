@@ -1,32 +1,36 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "node --watch index.js",
-    "build": "echo 'No build step required for backend'",
-    "start": "node index.js",
-    "lint": "eslint . --ext .js,.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.100.1",
-    "cors": "^2.8.6",
-    "dotenv": "^16.0.3",
-    "express": "^5.2.1",
-    "firebase-admin": "^13.7.0",
-    "pg": "^8.20.0",
-    "prisma": "^7.6.0"
-  },
-  "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@types/node": "^22.15.3",
-    "eslint": "^9.39.1",
-    "typescript": "^5.9.2"
-  }
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "Express backend with Supabase integration",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "nodemon src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "lint": "eslint . --ext .ts",
+        "db:generate": "prisma generate",
+        "db:push": "prisma db push",
+        "db:migrate": "prisma migrate dev"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.100.1",
+        "cors": "^2.8.6",
+        "dotenv": "^16.0.3",
+        "express": "^5.2.1",
+        "jsonwebtoken": "^9.0.2",
+        "bcryptjs": "^2.4.3",
+        "zod": "^3.24.0"
+    },
+    "devDependencies": {
+        "@repo/eslint-config": "*",
+        "@repo/typescript-config": "*",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/jsonwebtoken": "^9.0.7",
+        "@types/node": "^22.15.3",
+        "nodemon": "^3.1.0",
+        "prisma": "^6.0.0",
+        "typescript": "^5.9.2"
+    }
 }

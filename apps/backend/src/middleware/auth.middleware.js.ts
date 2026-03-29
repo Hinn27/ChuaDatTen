@@ -1,0 +1,3 @@
+// JWT verification middleware
+
+// Example: export const verifyJWT = ...

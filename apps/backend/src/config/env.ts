@@ -1,0 +1,3 @@
+// Environment variables validation
+
+// Example: export const env = ...

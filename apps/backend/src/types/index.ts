@@ -1,0 +1,3 @@
+// TypeScript types
+
+// Example: export type User = ...

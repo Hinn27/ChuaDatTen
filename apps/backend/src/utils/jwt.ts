@@ -1,0 +1,3 @@
+// JWT helper functions
+
+// Example: export const signToken = ...

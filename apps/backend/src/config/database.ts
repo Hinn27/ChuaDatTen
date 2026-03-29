@@ -1,0 +1,3 @@
+// Supabase client config
+
+// Example: export const supabase = ...
