@@ -1,0 +1,92 @@
+.deal-section {
+  padding: 100px 0;
+  background-color: var(--bg-light);
+}
+
+.deal-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+  background: white;
+  padding: 60px;
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.deal-info {
+  flex: 1;
+}
+
+.badge-promo {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.deal-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.deal-price {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.old-price {
+  color: #adb5bd;
+  text-decoration: line-through;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.current-price {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+}
+
+.deal-image {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-burger-img {
+  width: 100%;
+  max-width: 450px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.ingredients {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ingredient-box {
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

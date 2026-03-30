@@ -1,0 +1,160 @@
+.hero {
+  padding: 150px 0 100px;
+  background-color: var(--bg-light);
+  min-height: 80vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 550px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  position: relative;
+  z-index: 1;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background-color: var(--secondary-color);
+  z-index: -1;
+  border-radius: 8px;
+}
+
+.hero-desc {
+  color: var(--text-gray);
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.hero-auth-wrapper {
+  max-width: 450px;
+}
+
+.hero-email-box {
+  margin-bottom: 15px;
+}
+
+.hero-email-input {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  font-size: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  font-family: var(--font-body);
+}
+
+.hero-email-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.hero-auth-box {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.hero-auth-box .btn-secondary,
+.hero-auth-box .btn-primary {
+  flex: 1;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.hero-images {
+  flex: 1;
+  position: relative;
+  min-height: 500px;
+}
+
+.red-blob {
+  position: absolute;
+  right: -100px;
+  top: -50px;
+  width: 400px;
+  height: 500px;
+  background-color: var(--primary-color);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  z-index: 0;
+}
+
+.main-img {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 10px solid white;
+  z-index: 2;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.sub-img {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 8px solid white;
+  z-index: 1;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.floating-badge {
+  position: absolute;
+  top: -20px;
+  right: 150px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  z-index: 3;
+}
+
+.badge-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+}
+
+.badge-text strong {
+  font-size: 0.9rem;
+}
