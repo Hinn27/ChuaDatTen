@@ -4,9 +4,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { errorHandler } from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
+import chatbotRoutes from './routes/chatbot.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import semanticRoutes from './routes/semantic.routes.js';
-import chatbotRoutes from './routes/chatbot.routes.js';
 
 dotenv.config();
 
