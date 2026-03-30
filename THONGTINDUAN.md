@@ -1,4 +1,4 @@
-## Thông tin dự án đã ghi nhận
+## Thông tin dự án
 
 | Key | Value |
 |---|---|
@@ -7,7 +7,7 @@
 | **Framework** | React + Vite |
 | **Styling** | Material UI (MUI) |
 | **State** | Zustand (chia store theo feature) |
-| **Routing** | react-router-dom v6 (v7 đã cài) |
+| **Routing** | react-router-dom |
 | **Data fetching** | TanStack Query (cho HomePage), axios/fetch (cho các trang khác) |
 | **Auth** | Supabase Auth (JWT + session) |
 | **Naming** | Components: `PascalCase.jsx` · Biến/hàm: `camelCase` · DB: `snake_case` |
