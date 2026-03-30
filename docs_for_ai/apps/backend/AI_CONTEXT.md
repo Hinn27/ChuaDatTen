@@ -12,7 +12,7 @@
    - `controllers/`: Xử lý req/res, validate dữ liệu đầu vào.
    - `services/`: Chứa toàn bộ business logic, giao tiếp với Supabase DB và LLM (Gemini).
 2. Xử lý Database:
-   - Ưu tiên sử dụng phương thức query của Supabase SDK. 
+   - Ưu tiên sử dụng phương thức query của Supabase SDK.
    - Với các truy vấn phức tạp hoặc Semantic Search (AI), sử dụng Supabase RPC (Remote Procedure Call) để gọi function từ Postgres.
 3. Xử lý lỗi (Error Handling):
    - Sử dụng một middleware `errorHandler` tập trung.
