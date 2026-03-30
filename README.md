@@ -52,7 +52,7 @@ git config --local commit.template .gitmessage
 Từ giờ, **KHÔNG dùng** `git commit -m "..."`. Thay vào đó:
 
 ```bash
-git commit
+git commit -e -F .gitmessage
 ```
 
 Lúc này, Terminal (hoặc VSCode/IntelliJ) sẽ tự động mở file template. Bạn chỉ cần:
