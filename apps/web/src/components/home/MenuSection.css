@@ -1,6 +1,6 @@
 .menu-section {
   padding: 100px 0;
-  background-color: var(--bg-light);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
 }
 
 .menu-grid {
@@ -37,9 +37,9 @@
   bottom: -15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 3px;
-  background-color: var(--secondary-color);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
   border-radius: 2px;
 }
 
@@ -68,8 +68,9 @@
 
 .menu-price {
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--secondary-color);
   font-size: 1.2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .highlight-item .menu-price {

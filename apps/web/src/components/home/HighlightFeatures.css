@@ -1,5 +1,5 @@
 .highlight-section {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
   padding: 100px 0;
   overflow: hidden;
 }
@@ -43,13 +43,18 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: var(--secondary-color);
-  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+  color: #1a1a1a;
   font-size: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(255, 214, 10, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.video-btn:hover {
+  transform: scale(1.1);
 }
 
 .highlight-images {

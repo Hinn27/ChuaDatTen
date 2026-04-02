@@ -1,14 +1,21 @@
 .header {
-  padding: 20px 0;
-  background-color: transparent;
-  position: absolute;
+  padding: 16px 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+  backdrop-filter: blur(10px);
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 100;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
 }
 
 .header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,20 +27,51 @@
   gap: 8px;
   font-size: 1.5rem;
   font-weight: 800;
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .nav-menu ul {
   display: flex;
   gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-menu a {
-  font-weight: 500;
-  font-size: 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
 }
 
 .nav-menu a:hover, .nav-menu a.active {
   color: var(--primary-color);
+}
+
+.nav-menu a:hover::after, .nav-menu a.active::after {
+  width: 100%;
 }
 
 .header-actions {
@@ -43,21 +81,36 @@
 }
 
 .icon-btn {
-  background: none;
-  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--text-h);
   position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+  background: var(--bg-gray);
+  color: var(--primary-color);
 }
 
 .cart-btn .badge {
   position: absolute;
-  top: -8px;
-  right: -10px;
-  background-color: var(--primary-color);
+  top: -4px;
+  right: -4px;
+  background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
   color: #fff;
-  font-size: 0.75rem;
-  width: 18px;
-  height: 18px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   display: flex;
   align-items: center;
   justify-content: center;

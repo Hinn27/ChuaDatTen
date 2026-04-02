@@ -1,6 +1,6 @@
 .news-section {
   padding: 100px 0;
-  background-color: var(--bg-white);
+  background-color: #ffffff;
 }
 
 .news-grid {
@@ -48,12 +48,13 @@
   position: absolute;
   top: -20px;
   left: 20px;
-  background-color: var(--secondary-color);
-  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+  color: #1a1a1a;
   padding: 8px 15px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(255, 214, 10, 0.3);
 }
 
 .news-title {
@@ -67,6 +68,7 @@
 
 .news-title:hover {
   color: var(--primary-color);
+  text-decoration: underline;
 }
 
 .news-author {

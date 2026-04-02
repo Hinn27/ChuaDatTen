@@ -1,6 +1,6 @@
 .services-section {
   padding: 100px 0;
-  background-color: var(--bg-white);
+  background: #ffffff;
   text-align: center;
 }
 
@@ -36,7 +36,8 @@
 }
 
 .service-card:hover .service-icon, .service-card.active .service-icon {
-  background-color: var(--secondary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
 }
 
 .service-card h3 {

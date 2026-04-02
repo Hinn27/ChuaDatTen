@@ -1,15 +1,26 @@
 .dining-section {
   padding: 100px 0;
-  background-color: var(--bg-white);
+  background-color: #ffffff;
 }
 
 .dining-content {
   display: flex;
   align-items: center;
   gap: 50px;
-  background-color: var(--bg-light);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   border-radius: 30px;
   overflow: hidden;
+}
+
+.dining-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(233, 30, 99, 0.7), rgba(255, 214, 10, 0.7));
+  border-radius: 30px;
 }
 
 .dining-gallery {
