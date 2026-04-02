@@ -1,0 +1,11 @@
+export { Header } from './Header';
+export { Hero } from './Hero';
+export { Features as About } from './Features';
+export { MenuSection as Menu } from './MenuSection';
+export { Services } from './Services';
+export { DealOfTheWeek as DealOfWeek } from './DealOfTheWeek';
+export { PrivateDining as Events } from './PrivateDining';
+export { HighlightFeatures } from './HighlightFeatures';
+export { RecentNews } from './RecentNews';
+export { Reservation } from './Reservation';
+export { Footer } from './Footer';
