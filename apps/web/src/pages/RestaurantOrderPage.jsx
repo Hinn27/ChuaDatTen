@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/common/SiteHeader.jsx'
-import { SiteFooter } from '../components/common/SiteFooter.jsx'
 import { IconSearch, IconClock, IconPhone } from '../components/common/icons.jsx'
 import { Stars } from '../components/common/Stars.jsx'
+import { Header, Footer } from '../components'
 import '../App.css'
 import './restaurant-pages.css'
 
@@ -154,7 +153,7 @@ export function RestaurantOrderPage() {
 
   return (
     <div className="rp-page rp-page--order">
-      <SiteHeader variant="inner" />
+      <Header variant="inner" />
 
       <section className="rp-hero rp-hero--pizza">
         <div className="rp-hero-bg rp-hero-bg--pizza" />
@@ -421,7 +420,7 @@ export function RestaurantOrderPage() {
         </div>
       </section>
 
-      <SiteFooter />
+      <Footer />
     </div>
   )
 }

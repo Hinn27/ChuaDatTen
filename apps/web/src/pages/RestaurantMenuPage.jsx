@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/common/SiteHeader.jsx'
-import { SiteFooter } from '../components/common/SiteFooter.jsx'
 import { IconSearch, IconClock, IconPhone } from '../components/common/icons.jsx'
 import { Stars } from '../components/common/Stars.jsx'
+import { Header, Footer } from '../components'
 import '../App.css'
 import './restaurant-pages.css'
 
@@ -157,7 +156,7 @@ export function RestaurantMenuPage() {
 
   return (
     <div className="rp-page">
-      <SiteHeader variant="inner" />
+      <Header />
 
       <section className="rp-hero">
         <div className="rp-hero-bg" />
@@ -378,7 +377,7 @@ export function RestaurantMenuPage() {
         </div>
       </section>
 
-      <SiteFooter />
+      <Footer />
     </div>
   )
 }
