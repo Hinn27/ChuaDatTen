@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader.jsx'
-import { SiteFooter } from '../components/SiteFooter.jsx'
-import { IconSearch, IconClock, IconPhone } from '../components/icons.jsx'
-import { Stars } from '../components/Stars.jsx'
+import { SiteHeader } from '../components/common/SiteHeader.jsx'
+import { SiteFooter } from '../components/common/SiteFooter.jsx'
+import { IconSearch, IconClock, IconPhone } from '../components/common/icons.jsx'
+import { Stars } from '../components/common/Stars.jsx'
 import '../App.css'
 import './restaurant-pages.css'
 
