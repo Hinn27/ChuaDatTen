@@ -1,3 +1,45 @@
+/* Sticky Register Button */
+.sticky-register-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-sticky {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(233, 30, 99, 0.4);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-sticky:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(233, 30, 99, 0.5);
+}
+
+/* Footer */
 .footer {
   background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
   color: white;

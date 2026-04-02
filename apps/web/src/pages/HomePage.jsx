@@ -9,7 +9,6 @@ import {
   Events,
   HighlightFeatures,
   RecentNews,
-  Reservation,
   Footer
 } from '../components';
 import './HomePage.css';
@@ -26,7 +25,6 @@ export function HomePage() {
       <Events />
       <HighlightFeatures />
       <RecentNews />
-      <Reservation />
       <Footer />
     </div>
   );
