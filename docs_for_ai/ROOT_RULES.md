@@ -1,5 +1,5 @@
 # GIỚI THIỆU DỰ ÁN (PROJECT OVERVIEW)
-Tên dự án (tạm thời): Refood - Nền tảng thương mại điện tử giải cứu thức ăn (Food Rescue Platform).
+Tên dự án: Refood - Nền tảng thương mại điện tử giải cứu thức ăn (Food Rescue Platform).
 Kiến trúc: Monorepo (Backend Node.js, Web Admin React Vite, Mobile App Expo).
 Ngôn ngữ lập trình duy nhất: JavaScript (ES6+). KHÔNG sử dụng TypeScript.
 

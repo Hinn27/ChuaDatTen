@@ -4,7 +4,7 @@
 - Framework: React (build bằng Vite)
 - Ngôn ngữ: JavaScript (.jsx)
 - State Management: Zustand
-- Styling: Tailwind CSS (hoặc CSS module tùy dự án)
+- Styling: Material UI
 
 # QUY TẮC CODE WEB FRONTEND
 1. React UI:
