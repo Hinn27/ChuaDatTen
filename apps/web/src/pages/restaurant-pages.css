@@ -2,11 +2,11 @@
 
 /* Variables and Base */
 .rp-page {
-  --rp-orange: #fc8a06;
-  --rp-orange-hover: #e57c05;
-  --rp-dark: #03081f;
-  --rp-gray-light: #f9f9f9;
-  --rp-gray-border: #eee;
+  --rp-orange: #E91E63;
+  --rp-orange-hover: #C2185B;
+  --rp-dark: #1a1a1a;
+  --rp-gray-light: #f8f8f8;
+  --rp-gray-border: #e0e0e0;
   --rp-text-muted: #666;
   background-color: #fff;
   color: var(--rp-dark);

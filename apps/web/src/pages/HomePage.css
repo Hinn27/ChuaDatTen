@@ -7,11 +7,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
 :root {
-  --hm-red: #F23A4A;      /* Primary crimson red */
-  --hm-yellow: #FFC222;    /* Primary vibrant yellow */
-  --hm-dark: #1F2229;      /* Dark text */
-  --hm-text: #6B7081;      /* Muted text */
-  --hm-bg-light: #F9FAFB;  /* Light grey section bg */
+  --hm-red: #E91E63;       /* Primary pink */
+  --hm-yellow: #FFD60A;    /* Primary vibrant yellow */
+  --hm-dark: #1a1a1a;      /* Dark text */
+  --hm-text: #2d2d2d;      /* Muted text */
+  --hm-bg-light: #f8f8f8;  /* Light grey section bg */
   --hm-bg-white: #FFFFFF;
 }
 
