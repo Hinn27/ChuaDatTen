@@ -1,5 +1,15 @@
 import React from 'react';
-import './RecentNews.css';
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+} from '@mui/material';
+import { Reveal } from './Reveal';
+import { homeColors, sectionPadding, sectionTitleSx } from './homeTokens';
 
 const newsItems = [
   {
@@ -24,31 +34,56 @@ const newsItems = [
 
 export const RecentNews = () => {
   return (
-    <section id="news" className="news-section">
-      <div className="container">
-        <div className="section-title">
-          <span className="text-cursive">Our Blog</span>
-          <h2>Recent News</h2>
-        </div>
-        
-        <div className="news-grid">
+    <Box component="section" id="news" sx={{ py: sectionPadding, backgroundColor: homeColors.white }}>
+      <Container maxWidth="lg">
+        <Reveal>
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Typography variant="h3" sx={sectionTitleSx}>
+              Recent
+              <Box component="span" sx={{ display: 'block', color: homeColors.primary }}>
+                News
+              </Box>
+            </Typography>
+          </Box>
+        </Reveal>
+
+        <Grid container spacing={3}>
           {newsItems.map((news, idx) => (
-            <div key={idx} className="news-card">
-              <div className="news-img-wrap">
-                <img src={news.img} alt={news.title} />
-              </div>
-              <div className="news-content">
-                <div className="news-date">{news.date}</div>
-                <h3 className="news-title">{news.title}</h3>
-                <div className="news-author">
-                  <span className="author-icon">👤</span>
-                  {news.author}
-                </div>
-              </div>
-            </div>
+            <Grid item xs={12} md={4} key={idx}>
+              <Reveal delay={idx * 120}>
+                <Card
+                  sx={{
+                    backgroundColor: homeColors.white,
+                    border: '1px solid #ececf2',
+                    borderRadius: 3,
+                    overflow: 'hidden',
+                    transition: 'transform 240ms ease, box-shadow 240ms ease',
+                    cursor: 'pointer',
+                    '&:hover': {
+                      boxShadow: '0 12px 30px rgba(16,16,20,0.12)',
+                      transform: 'translateY(-6px)',
+                    },
+                  }}
+                >
+                  <CardMedia component="img" height={200} image={news.img} alt={news.title} sx={{ objectFit: 'cover' }} />
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="caption" sx={{ color: '#9aa0ac', fontSize: '0.85rem', mb: 0.75, display: 'block' }}>
+                      {news.date}
+                    </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5, color: homeColors.text, fontSize: '1rem', lineHeight: 1.4 }}>
+                      {news.title}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                      <Typography sx={{ fontSize: '1rem' }}>👤</Typography>
+                      <Typography sx={{ color: homeColors.muted, fontSize: '0.85rem' }}>{news.author}</Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Reveal>
+            </Grid>
           ))}
-        </div>
-      </div>
-    </section>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
