@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
 /* HomePage.css - Modern Restaurant Layout */
 #root {
   width: 100% !important;
   max-width: unset !important;
   border-inline: none !important;
 }
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
 :root {
   --hm-red: #E91E63;       /* Primary pink */
