@@ -18,3 +18,11 @@ Ngôn ngữ lập trình duy nhất: JavaScript (ES6+). KHÔNG sử dụng TypeS
 3. Tuyệt đối không nhầm lẫn giữa Supabase và Firebase:
    - Chỉ dùng Supabase cho DB (SQL), Storage (Upload ảnh), và Auth.
    - Chỉ dùng Firebase cho tính năng Push Notification (FCM). Không dùng Firestore hay Firebase Auth.
+
+4. Frontend web React/Vite:
+   - Dùng `react-router-dom` v6 cho routing.
+   - App web chia theo namespace member: `a`, `b`, `c`, `d`, `e`.
+   - Mỗi member có đủ 5 route: `/:member/shop`, `/:member/products`, `/:member/products/:id`, `/:member/cart`, `/:member/checkout`.
+   - Code dùng chung phải đặt ở `src/shared/`, router shell ở `src/app/router/`, page theo flow đặt ở `src/features/`.
+   - Ưu tiên tạo component tái sử dụng thay vì copy-paste giữa các member.
+
