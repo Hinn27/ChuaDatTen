@@ -43,3 +43,37 @@ export async function getProductById(req, res, next) {
 		return next(error);
 	}
 }
+
+/**
+ * GET /api/products/stats/bestsellers
+ * Tra ve thong ke mon ban chay toan bo va theo tung danh muc.
+ */
+export async function getBestsellerStats(req, res, next) {
+	try {
+		const data = await productService.getBestsellerStats(req.query);
+		return res.status(200).json({
+			success: true,
+			data,
+			message: 'Lay thong ke bestseller thanh cong',
+		});
+	} catch (error) {
+		return next(error);
+	}
+}
+
+/**
+ * GET /api/products/stats/regional-bestsellers
+ * Tra ve thong ke mon ban chay theo 3 vung: Bac, Trung, Nam.
+ */
+export async function getRegionalBestsellerStats(req, res, next) {
+	try {
+		const data = await productService.getRegionalBestsellerStats(req.query);
+		return res.status(200).json({
+			success: true,
+			data,
+			message: 'Lay thong ke regional bestseller thanh cong',
+		});
+	} catch (error) {
+		return next(error);
+	}
+}
