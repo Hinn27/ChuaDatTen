@@ -14,15 +14,37 @@ import { create } from 'zustand'
  * State thêm/bớt số lượng bằng Zustand
  */
 const useCartStore = create((set, get) => ({
+  activeMember: 'a',
+  itemsByMember: {},
+
   /** @type {CartItem[]} */
-  items: [],
+  get items() {
+    const { activeMember, itemsByMember } = get()
+    return itemsByMember[activeMember] || []
+  },
+
+  /**
+   * Đổi member đang thao tác để tách flow giỏ hàng theo từng bạn.
+   * @param {string} member
+   */
+  setActiveMember: (member) => {
+    const safeMember = member || 'a'
+    set((state) => ({
+      activeMember: safeMember,
+      itemsByMember: {
+        ...state.itemsByMember,
+        [safeMember]: state.itemsByMember[safeMember] || [],
+      },
+    }))
+  },
 
   /**
    * Thêm sản phẩm vào giỏ. Nếu đã có thì tăng quantity.
    * @param {CartItem} product
    */
-  addItem: (product) => {
-    const { items } = get()
+  addItem: (product, member) => {
+    const activeMember = member || get().activeMember
+    const items = get().itemsByMember[activeMember] || []
     const existingIndex = items.findIndex((item) => item.id === product.id)
 
     if (existingIndex >= 0) {
@@ -31,9 +53,19 @@ const useCartStore = create((set, get) => ({
         ...updatedItems[existingIndex],
         quantity: updatedItems[existingIndex].quantity + 1,
       }
-      set({ items: updatedItems })
+      set((state) => ({
+        itemsByMember: {
+          ...state.itemsByMember,
+          [activeMember]: updatedItems,
+        },
+      }))
     } else {
-      set({ items: [...items, { ...product, quantity: 1 }] })
+      set((state) => ({
+        itemsByMember: {
+          ...state.itemsByMember,
+          [activeMember]: [...items, { ...product, quantity: 1 }],
+        },
+      }))
     }
   },
 
@@ -41,8 +73,15 @@ const useCartStore = create((set, get) => ({
    * Xóa sản phẩm khỏi giỏ
    * @param {string|number} productId
    */
-  removeItem: (productId) => {
-    set({ items: get().items.filter((item) => item.id !== productId) })
+  removeItem: (productId, member) => {
+    const activeMember = member || get().activeMember
+    const items = get().itemsByMember[activeMember] || []
+    set((state) => ({
+      itemsByMember: {
+        ...state.itemsByMember,
+        [activeMember]: items.filter((item) => item.id !== productId),
+      },
+    }))
   },
 
   /**
@@ -50,21 +89,36 @@ const useCartStore = create((set, get) => ({
    * @param {string|number} productId
    * @param {number} quantity - Số lượng mới (nếu <= 0 sẽ xóa)
    */
-  updateQuantity: (productId, quantity) => {
+  updateQuantity: (productId, quantity, member) => {
+    const activeMember = member || get().activeMember
     if (quantity <= 0) {
-      get().removeItem(productId)
+      get().removeItem(productId, activeMember)
       return
     }
-    const updatedItems = get().items.map((item) =>
+    const items = get().itemsByMember[activeMember] || []
+    const updatedItems = items.map((item) =>
       item.id === productId ? { ...item, quantity } : item
     )
-    set({ items: updatedItems })
+    set((state) => ({
+      itemsByMember: {
+        ...state.itemsByMember,
+        [activeMember]: updatedItems,
+      },
+    }))
   },
 
   /**
    * Xóa toàn bộ giỏ hàng
    */
-  clearCart: () => set({ items: [] }),
+  clearCart: (member) => {
+    const activeMember = member || get().activeMember
+    set((state) => ({
+      itemsByMember: {
+        ...state.itemsByMember,
+        [activeMember]: [],
+      },
+    }))
+  },
 
   /**
    * Tổng số lượng sản phẩm trong giỏ
@@ -86,16 +140,20 @@ const useCartStore = create((set, get) => ({
    * Helper: Tính tổng tiền (dùng khi computed getter không hoạt động)
    * @returns {number}
    */
-  getTotalPrice: () => {
-    return get().items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  getTotalPrice: (member) => {
+    const activeMember = member || get().activeMember
+    const items = get().itemsByMember[activeMember] || []
+    return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   },
 
   /**
    * Helper: Tính tổng số lượng
    * @returns {number}
    */
-  getTotalItems: () => {
-    return get().items.reduce((sum, item) => sum + item.quantity, 0)
+  getTotalItems: (member) => {
+    const activeMember = member || get().activeMember
+    const items = get().itemsByMember[activeMember] || []
+    return items.reduce((sum, item) => sum + item.quantity, 0)
   },
 }))
 

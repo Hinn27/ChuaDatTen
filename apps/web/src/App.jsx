@@ -1,6 +1,13 @@
+<<<<<<< HEAD
+import { FloatingChatbot } from './components/chat/FloatingChatbot.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from './pages/HomePage.jsx';
-import { RestaurantMenuPage } from './pages/RestaurantMenuPage.jsx';
+  return (
+    <>
+      <AppRouter />
+      <FloatingChatbot />
+    </>
+  )
 import { RestaurantOrderPage } from './pages/RestaurantOrderPage.jsx';
 import { FloatingChatbot } from './components/chat/FloatingChatbot.jsx';
 
@@ -18,3 +25,11 @@ function App() {
 }
 
 export default App;
+=======
+import { AppRouter } from './app/router/index.jsx'
+
+export default function App() {
+  return <AppRouter />
+}
+
+>>>>>>> 5a7f1cb (refactor(web): chuẩn hoá router và shared constants)

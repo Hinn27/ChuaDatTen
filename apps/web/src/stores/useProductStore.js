@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import api from '../services/api.js'
+import { CATEGORIES } from '../shared/constants/categories.js'
+import { MOCK_PRODUCTS } from '../shared/constants/mockProducts.js'
 
 /**
  * @typedef {Object} Product
@@ -25,6 +27,8 @@ const useProductStore = create((set, get) => ({
   selectedProduct: null,
   /** @type {Product[]} */
   bestSellingItems: [],
+  selectedCategory: 'all',
+  usingMockData: false,
   loading: false,
   /** @type {string|null} */
   error: null,
@@ -36,9 +40,17 @@ const useProductStore = create((set, get) => ({
     set({ loading: true, error: null })
     try {
       const response = await api.get('/products')
-      set({ products: response.data, loading: false })
+      const products = Array.isArray(response.data) ? response.data : []
+      set({ products, usingMockData: false, loading: false })
     } catch (error) {
-      set({ error: error.message, loading: false })
+      // Fallback mock giúp nhóm vẫn demo đủ flow khi product API chưa sẵn sàng.
+      set({
+        products: MOCK_PRODUCTS,
+        selectedProduct: get().selectedProduct,
+        usingMockData: true,
+        error: null,
+        loading: false,
+      })
     }
   },
 
@@ -50,8 +62,18 @@ const useProductStore = create((set, get) => ({
     set({ loading: true, error: null })
     try {
       const response = await api.get(`/products/${productId}`)
-      set({ selectedProduct: response.data, loading: false })
+      set({ selectedProduct: response.data, usingMockData: false, loading: false })
     } catch (error) {
+      const fallback = get().products.find((p) => `${p.id}` === `${productId}`)
+      if (fallback) {
+        set({ selectedProduct: fallback, usingMockData: true, error: null, loading: false })
+        return
+      }
+      const mockMatch = MOCK_PRODUCTS.find((p) => `${p.id}` === `${productId}`)
+      if (mockMatch) {
+        set({ selectedProduct: mockMatch, usingMockData: true, error: null, loading: false })
+        return
+      }
       set({ error: error.message, loading: false })
     }
   },
@@ -77,6 +99,33 @@ const useProductStore = create((set, get) => ({
    * @param {Product|null} product
    */
   setSelectedProduct: (product) => set({ selectedProduct: product }),
+
+  /**
+   * Chọn category cho trang sản phẩm
+   * @param {string} category
+   */
+  setCategory: (category) => set({ selectedCategory: category || 'all' }),
+
+  /**
+   * Danh sách category sắp xếp gọn để render chips/tabs
+   * @returns {string[]}
+   */
+  getCategories: () => {
+    const categories = new Set(get().products.map((product) => product.category).filter(Boolean))
+    const ordered = CATEGORIES.filter((category) => categories.has(category))
+    const extra = Array.from(categories).filter((category) => !CATEGORIES.includes(category))
+    return ['all', ...ordered, ...extra]
+  },
+
+  /**
+   * Danh sách product đã filter theo category
+   * @returns {Product[]}
+   */
+  getFilteredProducts: () => {
+    const { products, selectedCategory } = get()
+    if (selectedCategory === 'all') return products
+    return products.filter((product) => product.category === selectedCategory)
+  },
 
   /**
    * Xóa lỗi
