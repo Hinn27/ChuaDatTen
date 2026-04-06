@@ -1,72 +1,62 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import CheckoutPage from '../../features/checkout/pages/CheckoutPage.jsx'
-import BCartPage from '../../features/member-b/pages/BCartPage.jsx'
-import BCheckoutPage from '../../features/member-b/pages/BCheckoutPage.jsx'
-import BProductDetailPage from '../../features/member-b/pages/BProductDetailPage.jsx'
-import BProductsPage from '../../features/member-b/pages/BProductsPage.jsx'
-import BShopPage from '../../features/member-b/pages/BShopPage.jsx'
-import { MemberCartPage } from '../../features/member-flow/pages/MemberCartPage.jsx'
-import { MemberProductDetailPage } from '../../features/member-flow/pages/MemberProductDetailPage.jsx'
-import { MemberProductsPage } from '../../features/member-flow/pages/MemberProductsPage.jsx'
-import { MemberShopPage } from '../../features/member-flow/pages/MemberShopPage.jsx'
-import { MemberGuard } from './MemberGuard.jsx'
+import { Navigate, Route, Routes } from "react-router-dom";
+import CheckoutPage from "../../features/checkout/pages/CheckoutPage.jsx";
+import { MemberCartPage } from "../../features/member-flow/pages/MemberCartPage.jsx";
+import { MemberProductDetailPage } from "../../features/member-flow/pages/MemberProductDetailPage.jsx";
+import { MemberProductsPage } from "../../features/member-flow/pages/MemberProductsPage.jsx";
+import { MemberShopPage } from "../../features/member-flow/pages/MemberShopPage.jsx";
+import { HomePage } from "../../pages/HomePage.jsx";
+import { MemberGuard } from "./MemberGuard.jsx";
 
 /**
  * AppRouter — toàn bộ route của web app.
  */
 export function AppRouter() {
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/a/shop" replace />} />
+    return (
+        <Routes>
+            <Route path="/" element={<HomePage />} />
 
-      <Route path="/b/shop" element={<BShopPage />} />
-      <Route path="/b/products" element={<BProductsPage />} />
-      <Route path="/b/products/:id" element={<BProductDetailPage />} />
-      <Route path="/b/cart" element={<BCartPage />} />
-      <Route path="/b/checkout" element={<BCheckoutPage />} />
+            <Route
+                path="/:member/shop"
+                element={
+                    <MemberGuard>
+                        <MemberShopPage />
+                    </MemberGuard>
+                }
+            />
+            <Route
+                path="/:member/products"
+                element={
+                    <MemberGuard>
+                        <MemberProductsPage />
+                    </MemberGuard>
+                }
+            />
+            <Route
+                path="/:member/products/:id"
+                element={
+                    <MemberGuard>
+                        <MemberProductDetailPage />
+                    </MemberGuard>
+                }
+            />
+            <Route
+                path="/:member/cart"
+                element={
+                    <MemberGuard>
+                        <MemberCartPage />
+                    </MemberGuard>
+                }
+            />
+            <Route
+                path="/:member/checkout"
+                element={
+                    <MemberGuard>
+                        <CheckoutPage />
+                    </MemberGuard>
+                }
+            />
 
-      <Route
-        path="/:member/shop"
-        element={
-          <MemberGuard>
-            <MemberShopPage />
-          </MemberGuard>
-        }
-      />
-      <Route
-        path="/:member/products"
-        element={
-          <MemberGuard>
-            <MemberProductsPage />
-          </MemberGuard>
-        }
-      />
-      <Route
-        path="/:member/products/:id"
-        element={
-          <MemberGuard>
-            <MemberProductDetailPage />
-          </MemberGuard>
-        }
-      />
-      <Route
-        path="/:member/cart"
-        element={
-          <MemberGuard>
-            <MemberCartPage />
-          </MemberGuard>
-        }
-      />
-      <Route
-        path="/:member/checkout"
-        element={
-          <MemberGuard>
-            <CheckoutPage />
-          </MemberGuard>
-        }
-      />
-
-      <Route path="*" element={<Navigate to="/a/shop" replace />} />
-    </Routes>
-  )
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+    );
 }
