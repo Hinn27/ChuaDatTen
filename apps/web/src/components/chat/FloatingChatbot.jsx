@@ -11,7 +11,7 @@ export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([
-    { id: 'welcome', role: 'assistant', text: 'Xin chao, minh la AI Refood. Ban muon tim mon gi?' },
+    { id: 'welcome', role: 'assistant', text: 'Xin chào, mình là AI Refood. Bạn muốn tìm món gì?' },
   ])
 
   const chatMutation = useChatMutation()
@@ -32,9 +32,9 @@ export function FloatingChatbot() {
 
     try {
       const answer = await chatMutation.mutateAsync(text)
-      setMessages((prev) => [...prev, { id: `a-${Date.now()}`, role: 'assistant', text: answer || 'AI chua co cau tra loi phu hop.' }])
+      setMessages((prev) => [...prev, { id: `a-${Date.now()}`, role: 'assistant', text: answer || 'AI chưa có câu trả lời phù hợp.' }])
     } catch {
-      setMessages((prev) => [...prev, { id: `e-${Date.now()}`, role: 'assistant', text: 'Khong the ket noi chatbot luc nay. Vui long thu lai.' }])
+      setMessages((prev) => [...prev, { id: `e-${Date.now()}`, role: 'assistant', text: 'Không thể kết nối chatbot lúc này. Vui lòng thử lại.' }])
     }
   }
 
@@ -45,9 +45,9 @@ export function FloatingChatbot() {
           <header className="chatbot-header">
             <div>
               <strong>AI Refood</strong>
-              <span>Tu van mon an nhanh</span>
+              <span>Tư vấn món ăn nhanh</span>
             </div>
-            <button type="button" onClick={() => setIsOpen(false)} aria-label="Dong chatbot">x</button>
+            <button type="button" onClick={() => setIsOpen(false)} aria-label="Đóng chatbot">x</button>
           </header>
 
           <div className="chatbot-messages">
@@ -60,7 +60,7 @@ export function FloatingChatbot() {
                 )}
               </article>
             ))}
-            {isTyping && <div className="chatbot-typing">AI dang go...</div>}
+            {isTyping && <div className="chatbot-typing">AI đang gõ...</div>}
           </div>
 
           <form className="chatbot-form" onSubmit={handleSubmit}>
@@ -68,15 +68,15 @@ export function FloatingChatbot() {
               type="text"
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Nhap cau hoi..."
-              aria-label="Nhap tin nhan"
+              placeholder="Nhập câu hỏi..."
+              aria-label="Nhập tin nhắn"
             />
-            <button type="submit" disabled={!canSend}>Gui</button>
+            <button type="submit" disabled={!canSend}>Gửi</button>
           </form>
         </section>
       )}
 
-      <button className="chatbot-fab" type="button" onClick={() => setIsOpen((value) => !value)} aria-label="Mo chatbot">
+      <button className="chatbot-fab" type="button" onClick={() => setIsOpen((value) => !value)} aria-label="Mở chatbot">
         AI
       </button>
     </div>
