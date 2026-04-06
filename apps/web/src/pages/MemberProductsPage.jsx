@@ -5,6 +5,7 @@ import { SiteFooter } from '../components/common/SiteFooter.jsx'
 import { SiteHeader } from '../components/common/SiteHeader.jsx'
 import { LoadingSpinner } from '../components/common/LoadingSpinner.jsx'
 import { ProductList } from '../components/product/ProductList.jsx'
+import { getMemberProfile } from '../shared/constants/memberProfiles.js'
 import useCartStore from '../stores/useCartStore.js'
 import useProductStore from '../stores/useProductStore.js'
 
@@ -13,6 +14,7 @@ import useProductStore from '../stores/useProductStore.js'
  */
 export function MemberProductsPage() {
   const { member } = useParams()
+  const profile = getMemberProfile(member)
   const setActiveMember = useCartStore((state) => state.setActiveMember)
   const {
     loading,
@@ -28,7 +30,8 @@ export function MemberProductsPage() {
   useEffect(() => {
     setActiveMember(member)
     fetchProducts()
-  }, [fetchProducts, member, setActiveMember])
+    setCategory(profile.defaultCategory)
+  }, [fetchProducts, member, profile.defaultCategory, setActiveMember, setCategory])
 
   const categories = getCategories()
   const products = getFilteredProducts()
@@ -38,10 +41,10 @@ export function MemberProductsPage() {
       <SiteHeader />
       <Container maxWidth="lg" sx={{ py: 5, flex: 1 }}>
         <Typography variant="h4" sx={{ fontWeight: 800, color: '#1A1A2E', mb: 1 }}>
-          Products
+          Products - {profile.displayName}
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 3 }}>
-          Chia theo category de 5 flow de quan sat va de cham.
+          Member {profile.label} uu tien category {profile.defaultCategory}.
         </Typography>
 
         {usingMockData && (

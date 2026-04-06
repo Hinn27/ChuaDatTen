@@ -1,5 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import CheckoutPage from '../../features/checkout/pages/CheckoutPage.jsx'
+import BCartPage from '../../features/member-b/pages/BCartPage.jsx'
+import BCheckoutPage from '../../features/member-b/pages/BCheckoutPage.jsx'
+import BProductDetailPage from '../../features/member-b/pages/BProductDetailPage.jsx'
+import BProductsPage from '../../features/member-b/pages/BProductsPage.jsx'
+import BShopPage from '../../features/member-b/pages/BShopPage.jsx'
 import { MemberCartPage } from '../../features/member-flow/pages/MemberCartPage.jsx'
 import { MemberProductDetailPage } from '../../features/member-flow/pages/MemberProductDetailPage.jsx'
 import { MemberProductsPage } from '../../features/member-flow/pages/MemberProductsPage.jsx'
@@ -13,6 +18,12 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/a/shop" replace />} />
+
+      <Route path="/b/shop" element={<BShopPage />} />
+      <Route path="/b/products" element={<BProductsPage />} />
+      <Route path="/b/products/:id" element={<BProductDetailPage />} />
+      <Route path="/b/cart" element={<BCartPage />} />
+      <Route path="/b/checkout" element={<BCheckoutPage />} />
 
       <Route
         path="/:member/shop"
