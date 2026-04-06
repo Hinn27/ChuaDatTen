@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SiteHeader } from '../components/SiteHeader.jsx'
 import { SiteFooter } from '../components/SiteFooter.jsx'
 import { IconSearch, IconClock, IconPhone } from '../components/icons.jsx'
 import { Stars } from '../components/Stars.jsx'
+import { useProductsQuery } from '../hooks/useShopQueries.js'
+import useCartStore from '../stores/useCartStore.js'
 import '../App.css'
 import './restaurant-pages.css'
 
@@ -27,7 +29,7 @@ const OFFERS = [
   },
 ]
 
-const MENU_SECTIONS = [
+const DEFAULT_MENU_SECTIONS = [
   {
     title: 'Burgers',
     items: [
@@ -152,8 +154,48 @@ const SIMILAR = [
 export function RestaurantMenuPage() {
   const [cat, setCat] = useState('Offers')
   const [reviewIdx, setReviewIdx] = useState(0)
+  const addItem = useCartStore((state) => state.addItem)
+  const { data, isLoading, isError } = useProductsQuery({ page: 1, limit: 30 })
+
+  const menuSections = useMemo(() => {
+    const apiItems = data?.items || []
+    if (!apiItems.length) {
+      return DEFAULT_MENU_SECTIONS
+    }
+
+    const grouped = apiItems.reduce((acc, item) => {
+      const categoryName = item.category_name || item.category || 'Menu'
+      if (!acc[categoryName]) {
+        acc[categoryName] = []
+      }
+      acc[categoryName].push({
+        id: item.id,
+        name: item.name,
+        desc: item.description || 'Mon ngon trong ngay',
+        price: `£${Number(item.price || 0).toFixed(2)}`,
+        img:
+          item.image_url ||
+          item.image ||
+          'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',
+      })
+      return acc
+    }, {})
+
+    return Object.entries(grouped).map(([title, items]) => ({ title, items }))
+  }, [data])
+
   const visibleReviews = 3
   const maxStart = Math.max(0, REVIEWS.length - visibleReviews)
+
+  function handleAddToCart(item) {
+    const priceNumber = Number(String(item.price).replace(/[£,$]/g, '')) || 0
+    addItem({
+      id: item.id,
+      name: item.name,
+      price: priceNumber,
+      image: item.img,
+    })
+  }
 
   return (
     <div className="rp-page">
@@ -224,7 +266,23 @@ export function RestaurantMenuPage() {
         </div>
       </section>
 
-      {MENU_SECTIONS.map((section) => (
+      {isLoading && (
+        <section className="rp-section">
+          <div className="oui-container">
+            <p>Dang tai danh sach san pham...</p>
+          </div>
+        </section>
+      )}
+
+      {isError && (
+        <section className="rp-section">
+          <div className="oui-container">
+            <p>Khong the tai san pham tu API, hien thi du lieu mau.</p>
+          </div>
+        </section>
+      )}
+
+      {menuSections.map((section) => (
         <section key={section.title} className="rp-section" id={section.title.toLowerCase().replace(/\s+/g, '-')}>
           <div className="oui-container">
             <h2 className="rp-h2 rp-h2--orange">{section.title}</h2>
@@ -238,7 +296,7 @@ export function RestaurantMenuPage() {
                   </div>
                   <div className="rp-menu-card-img">
                     <img src={item.img} alt="" loading="lazy" />
-                    <button type="button" className="rp-img-add" aria-label={`Add ${item.name}`}>
+                    <button type="button" className="rp-img-add" aria-label={`Add ${item.name}`} onClick={() => handleAddToCart(item)}>
                       +
                     </button>
                   </div>
