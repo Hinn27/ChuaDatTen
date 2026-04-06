@@ -5,6 +5,7 @@ import { SiteFooter } from '../components/common/SiteFooter.jsx'
 import { SiteHeader } from '../components/common/SiteHeader.jsx'
 import { CartItem } from '../components/cart/CartItem.jsx'
 import { CartSummary } from '../components/cart/CartSummary.jsx'
+import { getMemberProfile } from '../shared/constants/memberProfiles.js'
 import useCartStore from '../stores/useCartStore.js'
 
 /**
@@ -12,6 +13,7 @@ import useCartStore from '../stores/useCartStore.js'
  */
 export function MemberCartPage() {
   const { member } = useParams()
+  const profile = getMemberProfile(member)
   const setActiveMember = useCartStore((state) => state.setActiveMember)
   const items = useCartStore((state) => state.items)
 
@@ -24,7 +26,7 @@ export function MemberCartPage() {
       <SiteHeader />
       <Container maxWidth="lg" sx={{ py: 5, flex: 1 }}>
         <Typography variant="h4" sx={{ fontWeight: 800, color: '#1A1A2E', mb: 2 }}>
-          Cart - Member {member?.toUpperCase()}
+          Cart - Member {profile.label} ({profile.displayName})
         </Typography>
 
         {items.length === 0 ? (
