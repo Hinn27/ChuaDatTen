@@ -11,6 +11,50 @@ Web app này được chia theo 5 namespace `a`, `b`, `c`, `d`, `e` để nhóm 
 - Product được chia theo category để lọc nhanh và dễ chấm bài.
 - App dùng chung `shared/` cho component, store, constant; `features/` cho flow code.
 
+## Mỗi thành viên sẽ code ở đâu?
+
+### Phần dùng chung
+
+Những file/thư mục này do 1 người giữ chính, các bạn khác không tự ý sửa nếu chưa thống nhất:
+
+- `src/App.jsx`
+- `src/main.jsx`
+- `src/app/router/`
+- `src/shared/constants/`
+- `src/stores/useCartStore.js`
+- `src/stores/useProductStore.js`
+- `src/components/common/SiteHeader.jsx`
+
+### Member A
+
+- `src/features/member-flow/pages/MemberShopPage.jsx`
+- `src/features/member-flow/pages/MemberProductsPage.jsx`
+- `src/features/member-flow/pages/MemberProductDetailPage.jsx`
+- `src/features/member-flow/pages/MemberCartPage.jsx`
+- `src/features/checkout/pages/CheckoutPage.jsx`
+
+### Member B
+
+- Code theo cùng cấu trúc như Member A, nhưng chỉ làm dữ liệu và giao diện cho namespace `/b`.
+
+### Member C
+
+- Code theo cùng cấu trúc như Member A, nhưng chỉ làm dữ liệu và giao diện cho namespace `/c`.
+
+### Member D
+
+- Code theo cùng cấu trúc như Member A, nhưng chỉ làm dữ liệu và giao diện cho namespace `/d`.
+
+### Member E
+
+- Code theo cùng cấu trúc như Member A, nhưng chỉ làm dữ liệu và giao diện cho namespace `/e`.
+
+### Quy ước để không đụng nhau
+
+- Mỗi người chỉ sửa folder member của mình.
+- File chung chỉ 1 người owner và merge cuối cùng.
+- Nếu cần đổi router hoặc store, phải báo nhóm trước.
+
 ## Cấu trúc thư mục
 
 ```text
