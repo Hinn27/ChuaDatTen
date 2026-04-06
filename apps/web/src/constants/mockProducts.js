@@ -1,0 +1,87 @@
+/**
+ * Mock sản phẩm fallback để vẫn demo được 5 flow nếu backend chưa mở product API.
+ */
+export const MOCK_PRODUCTS = [
+  {
+    id: 'com-tam-suon',
+    name: 'Com Tam Suon',
+    description: 'Com tam suon nuong, bi, cha va nuoc mam pha.',
+    price: 45000,
+    originalPrice: 55000,
+    image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=900&q=80',
+    category: 'Com',
+  },
+  {
+    id: 'com-ga-xoi-mo',
+    name: 'Com Ga Xoi Mo',
+    description: 'Com ga gion da, do chua va canh nong.',
+    price: 49000,
+    image: 'https://images.unsplash.com/photo-1604908812022-0f4f7690d9d5?w=900&q=80',
+    category: 'Com',
+  },
+  {
+    id: 'pho-bo-tai',
+    name: 'Pho Bo Tai',
+    description: 'Nuoc dung bo dam da, banh pho mem va rau song.',
+    price: 55000,
+    image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=900&q=80',
+    category: 'BunPho',
+  },
+  {
+    id: 'bun-bo-hue',
+    name: 'Bun Bo Hue',
+    description: 'Vi cay nhe, thit bo mem va cha hue.',
+    price: 53000,
+    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=900&q=80',
+    category: 'BunPho',
+  },
+  {
+    id: 'ga-ran-truyen-thong',
+    name: 'Ga Ran Truyen Thong',
+    description: 'Ga ran vo gion, an kem khoai tay chien.',
+    price: 39000,
+    image: 'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=900&q=80',
+    category: 'MonChien',
+  },
+  {
+    id: 'khoai-tay-lac-pho-mai',
+    name: 'Khoai Tay Lac Pho Mai',
+    description: 'Khoai tay chien nong gion voi bot pho mai.',
+    price: 32000,
+    image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=900&q=80',
+    category: 'MonChien',
+  },
+  {
+    id: 'tra-dao-cam-sa',
+    name: 'Tra Dao Cam Sa',
+    description: 'Tra dao thanh mat voi lat dao tuoi.',
+    price: 28000,
+    image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=900&q=80',
+    category: 'DoUong',
+  },
+  {
+    id: 'ca-phe-sua-da',
+    name: 'Ca Phe Sua Da',
+    description: 'Ca phe dam vi ket hop sua dac co duong.',
+    price: 25000,
+    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=80',
+    category: 'DoUong',
+  },
+  {
+    id: 'che-khuc-bach',
+    name: 'Che Khuc Bach',
+    description: 'Che khuc bach man mat, hanh nhan gion.',
+    price: 30000,
+    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=900&q=80',
+    category: 'TrangMieng',
+  },
+  {
+    id: 'banh-flan-caramel',
+    name: 'Banh Flan Caramel',
+    description: 'Banh flan mem min voi caramel thom ngot.',
+    price: 22000,
+    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=900&q=80',
+    category: 'TrangMieng',
+  },
+]
+
