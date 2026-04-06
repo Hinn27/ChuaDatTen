@@ -1,0 +1,149 @@
+/* Sticky Register Button */
+.sticky-register-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-sticky {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 12px 28px rgba(233, 30, 99, 0.4);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-sticky:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(233, 30, 99, 0.5);
+}
+
+/* Footer */
+.footer {
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+  color: white;
+  padding: 80px 0 20px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 50px;
+  margin-bottom: 60px;
+}
+
+.footer-col h3 {
+  font-size: 1.25rem;
+  margin-bottom: 25px;
+  font-family: var(--font-heading);
+}
+
+.footer-logo {
+  color: white;
+}
+
+.brand-col p {
+  color: #adb5bd;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-links a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.social-links a:hover {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  transform: translateY(-3px);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footer-col ul li a {
+  color: #adb5bd;
+}
+
+.footer-col ul li a:hover {
+  color: var(--secondary-color);
+  padding-left: 5px;
+  text-decoration: underline;
+}
+
+.newsletter-col p {
+  color: #adb5bd;
+}
+
+.newsletter-form {
+  position: relative;
+}
+
+.newsletter-form input {
+  width: 100%;
+  padding: 15px 120px 15px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.newsletter-form button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  padding: 0 20px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 30px;
+  color: #adb5bd;
+  font-size: 0.9rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a:hover {
+  color: white;
+}
