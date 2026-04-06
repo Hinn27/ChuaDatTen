@@ -4,6 +4,8 @@ import { SiteHeader } from '../components/SiteHeader.jsx'
 import { SiteFooter } from '../components/SiteFooter.jsx'
 import { IconSearch, IconClock, IconPhone } from '../components/icons.jsx'
 import { Stars } from '../components/Stars.jsx'
+import { useCheckoutMutation, useProductsQuery } from '../hooks/useShopQueries.js'
+import useCartStore from '../stores/useCartStore.js'
 import '../App.css'
 import './restaurant-pages.css'
 
@@ -110,46 +112,81 @@ const SIMILAR = [
 export function RestaurantOrderPage() {
   const [sidebarCat, setSidebarCat] = useState('Home')
   const [sortBy, setSortBy] = useState('price-asc')
-  const [basket, setBasket] = useState([])
   const [mode, setMode] = useState('delivery')
+  const items = useCartStore((state) => state.items)
+  const addItem = useCartStore((state) => state.addItem)
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const totalPrice = useCartStore((state) => state.getTotalPrice())
+  const checkoutMutation = useCheckoutMutation()
+  const { data, isLoading } = useProductsQuery({ page: 1, limit: 30 })
+
+  const pizzas = useMemo(() => {
+    const apiItems = data?.items || []
+    if (!apiItems.length) {
+      return PIZZAS
+    }
+
+    return apiItems.map((item) => {
+      const price = Number(item.price || 0)
+      return {
+        id: item.id,
+        name: item.name,
+        desc: item.description || 'Mon ngon hom nay',
+        rating: 4.2,
+        img: item.image_url || item.image || 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=80',
+        sizes: [
+          { label: 'Standard', price },
+        ],
+      }
+    })
+  }, [data])
 
   const sortedPizzas = useMemo(() => {
-    const copy = [...PIZZAS]
+    const copy = [...pizzas]
+    const getPrice = (pizza) => Number(pizza?.sizes?.[1]?.price ?? pizza?.sizes?.[0]?.price ?? 0)
     if (sortBy === 'price-asc') {
-      copy.sort((a, b) => a.sizes[1].price - b.sizes[1].price)
+      copy.sort((a, b) => getPrice(a) - getPrice(b))
     } else if (sortBy === 'price-desc') {
-      copy.sort((a, b) => b.sizes[1].price - a.sizes[1].price)
+      copy.sort((a, b) => getPrice(b) - getPrice(a))
     } else if (sortBy === 'rating') {
       copy.sort((a, b) => b.rating - a.rating)
     }
     return copy
-  }, [sortBy])
+  }, [sortBy, pizzas])
 
-  const subtotal = basket.reduce((s, l) => s + l.price * l.qty, 0)
+  const subtotal = totalPrice
   const discount = subtotal > 40 ? 5 : 0
   const deliveryFee = mode === 'delivery' ? 2.49 : 0
   const total = Math.max(0, subtotal - discount + deliveryFee)
 
   function addToBasket(pizza, size) {
-    const label = `${pizza.name} (${size.label})`
-    setBasket((prev) => {
-      const i = prev.findIndex((l) => l.key === `${pizza.id}-${size.label}`)
-      if (i >= 0) {
-        const next = [...prev]
-        next[i] = { ...next[i], qty: next[i].qty + 1 }
-        return next
-      }
-      return [...prev, { key: `${pizza.id}-${size.label}`, label, price: size.price, qty: 1 }]
+    addItem({
+      id: `${pizza.id}-${size.label}`,
+      name: `${pizza.name} (${size.label})`,
+      price: size.price,
+      image: pizza.img,
     })
   }
 
   function updateQty(key, delta) {
-    setBasket((prev) => {
-      const next = prev
-        .map((l) => (l.key === key ? { ...l, qty: l.qty + delta } : l))
-        .filter((l) => l.qty > 0)
-      return next
-    })
+    const current = items.find((line) => line.id === key)
+    if (!current) return
+    updateQuantity(key, current.quantity + delta)
+  }
+
+  async function handleCheckout() {
+    if (!items.length || checkoutMutation.isPending) return
+
+    const payload = {
+      items: items.map((line) => ({
+        productId: String(line.id).split('-')[0],
+        quantity: line.quantity,
+      })),
+      total,
+      paymentMethod: 'COD',
+      address: 'Dia chi mac dinh',
+    }
+    await checkoutMutation.mutateAsync(payload)
   }
 
   return (
@@ -217,6 +254,7 @@ export function RestaurantOrderPage() {
             </label>
           </div>
           <div className="rp-pizza-grid">
+            {isLoading && <p>Dang tai san pham...</p>}
             {sortedPizzas.map((p) => (
               <article key={p.id} className="rp-pizza-card">
                 <img src={p.img} alt="" loading="lazy" />
@@ -248,22 +286,22 @@ export function RestaurantOrderPage() {
         <aside className="rp-basket" aria-label="Basket">
           <div className="rp-basket-head">My Basket</div>
           <div className="rp-basket-body">
-            {basket.length === 0 ? (
+            {items.length === 0 ? (
               <p className="rp-basket-empty">Your basket is empty. Add items from the menu.</p>
             ) : (
               <ul className="rp-basket-lines">
-                {basket.map((l) => (
-                  <li key={l.key}>
+                {items.map((l) => (
+                  <li key={l.id}>
                     <div className="rp-line-info">
-                      <span>{l.label}</span>
-                      <span>£{(l.price * l.qty).toFixed(2)}</span>
+                      <span>{l.name}</span>
+                      <span>£{(l.price * l.quantity).toFixed(2)}</span>
                     </div>
                     <div className="rp-qty">
-                      <button type="button" aria-label="Decrease" onClick={() => updateQty(l.key, -1)}>
+                      <button type="button" aria-label="Decrease" onClick={() => updateQty(l.id, -1)}>
                         −
                       </button>
-                      <span>{l.qty}</span>
-                      <button type="button" aria-label="Increase" onClick={() => updateQty(l.key, 1)}>
+                      <span>{l.quantity}</span>
+                      <button type="button" aria-label="Increase" onClick={() => updateQty(l.id, 1)}>
                         +
                       </button>
                     </div>
@@ -305,9 +343,11 @@ export function RestaurantOrderPage() {
               <span>Total to pay</span>
               <strong>£{total.toFixed(2)}</strong>
             </div>
-            <button type="button" className="rp-checkout">
-              Checkout
+            <button type="button" className="rp-checkout" onClick={handleCheckout} disabled={checkoutMutation.isPending || items.length === 0}>
+              {checkoutMutation.isPending ? 'Dang dat hang...' : 'Checkout'}
             </button>
+            {checkoutMutation.isError && <p>Dat hang that bai. Vui long thu lai.</p>}
+            {checkoutMutation.isSuccess && <p>Dat hang thanh cong.</p>}
           </div>
         </aside>
       </div>
