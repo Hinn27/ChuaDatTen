@@ -119,3 +119,9 @@ Lúc này, Terminal (hoặc VSCode/IntelliJ) sẽ tự động mở file templat
 
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - [Git Branching Model](https://nvie.com/posts/a-successful-git-branching-model/)
+
+## ⚙️ Tài liệu triển khai nội bộ
+
+- [Git workflow cho team](docs_for_ai/GIT_WORKFLOW.md)
+- [Supabase setup backend](docs_for_ai/apps/backend/SUPABASE_SETUP.md)
+- [Backend architecture MVC](apps/backend/README_ARCHITECTURE.md)

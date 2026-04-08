@@ -93,27 +93,28 @@ Phục vụ hiển thị trang chủ và dashboard quản lý.
 - **Desc**: Lấy chi tiết 1 món ăn.
 - **Response**: `200 OK` – Trả về dữ liệu Product.
 
-#### `POST /products`
-
-- **Desc**: Thêm món ăn mới. API này sẽ tự động gọi logic tạo vector embedding để lưu vào pgvector.
-- **Auth**: Required (Chỉ Role `STORE_OWNER` hoặc `ADMIN`).
-- **Body**:
-    ```json
-    {
-        "name": "...",
-        "price": 50000,
-        "categoryId": "...",
-        "imageUrl": "...",
-        "description": "..."
-    }
-    ```
-- **Response**: `201 Created`
+> ⚠️ Hiện tại backend mới triển khai các endpoint GET của products. Endpoint `POST /products` chưa được mở.
 
 ---
 
 ### 3. MODULE: AI INTEGRATION (Trí tuệ nhân tạo)
 
 Giao tiếp với mô hình LLM (Gemini) và CSDL Vector (pgvector).
+
+> Luồng bảo mật API Key: React/Mobile -> Node.js API -> Gemini API.
+> Client KHONG goi truc tiep Gemini de tranh lo `GOOGLE_API_KEY`.
+
+#### `POST /ai/generate`
+
+- **Desc**: AI gateway trung gian. Nhan prompt tu frontend, goi Gemini trong backend, tra ket qua text.
+- **Auth**: Required.
+- **Body**:
+    ```json
+    {
+        "prompt": "Tom tat uu diem cua mon com ga nay"
+    }
+    ```
+- **Response**: `200 OK` – Tra ve object `{ text: string }`.
 
 #### `GET /ai/search`
 
@@ -134,10 +135,7 @@ Giao tiếp với mô hình LLM (Gemini) và CSDL Vector (pgvector).
     ```
 - **Response**: `200 OK` (hoặc Stream) – Trả về câu trả lời text và danh sách món ăn gợi ý đính kèm.
 
-#### `GET /products/:id/summary`
-
-- **Desc**: Lấy bản tóm tắt đánh giá sản phẩm do AI sinh ra (AI Summary).
-- **Response**: `200 OK`
+> ⚠️ Endpoint `GET /products/:id/summary` chưa được triển khai ở backend hiện tại.
 
 ---
 
@@ -147,17 +145,28 @@ Giao tiếp với mô hình LLM (Gemini) và CSDL Vector (pgvector).
 
 #### `POST /orders/checkout`
 
-- **Desc**: Tạo đơn hàng mới, trừ số lượng tồn kho (stock) trong cùng 1 Transaction.
+- **Desc**: Tạo đơn hàng mới bằng SQL Transaction (RPC PostgreSQL). Luồng xử lý atomic:
+    - Khóa dòng sản phẩm bằng `FOR UPDATE`.
+    - Kiểm tra tồn kho.
+    - Trừ kho.
+    - Tạo `orders` + `order_items`.
+    - Tính `total` server-side.
+- **Concurrency Safety**:
+    - Dùng unique key `(user_id, idempotency_key)` để tránh tạo trùng đơn khi client retry.
+    - Hỗ trợ idempotency thông qua `X-Idempotency-Key` hoặc `idempotencyKey` trong body.
 - **Auth**: Required.
 - **Body**:
     ```json
     {
         "items": [{ "productId": "...", "quantity": 2 }],
         "paymentMethod": "COD | VNPAY | MOMO",
-        "address": "..."
+        "address": "...",
+        "idempotencyKey": "optional-client-key"
     }
     ```
-- **Response**: `201 Created` – Trả về `orderId` và `paymentUrl` (nếu có).
+- **Headers (optional)**:
+    - `X-Idempotency-Key: <unique-key-per-checkout-attempt>`
+- **Response**: `201 Created` – Trả về `orderId`, `paymentUrl`, `status`, `total`.
 
 #### `GET /orders/me`
 
@@ -183,6 +192,13 @@ Giao tiếp với mô hình LLM (Gemini) và CSDL Vector (pgvector).
 
 Quản lý thông báo đẩy sử dụng Firebase Cloud Messaging.
 
+Luồng push tu dong khi co su kien cap nhat don hang:
+
+1. `PUT /orders/:id/status` cap nhat trang thai.
+2. Backend tao ban ghi trong bang `notifications`.
+3. Backend lay token tu bang `notification_device_tokens`.
+4. Backend goi Firebase Admin SDK de gui FCM push.
+
 #### `POST /notifications/device-token`
 
 - **Desc**: Đăng ký FCM Device Token của App Mobile vào hệ thống để nhận thông báo.
@@ -199,5 +215,11 @@ Quản lý thông báo đẩy sử dụng Firebase Cloud Messaging.
 #### `GET /notifications`
 
 - **Desc**: Lấy danh sách lịch sử thông báo đã gửi cho user.
+- **Auth**: Required.
+- **Response**: `200 OK`
+
+#### `PUT /notifications/:id/read`
+
+- **Desc**: Đánh dấu một thông báo của user hiện tại là đã đọc.
 - **Auth**: Required.
 - **Response**: `200 OK`
