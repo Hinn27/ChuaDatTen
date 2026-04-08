@@ -3,12 +3,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { errorHandler } from './middleware/error.middleware.js';
+import aiRoutes from './routes/ai.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import chatbotRoutes from './routes/chatbot.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import productRoutes from './routes/product.routes.js';
 import semanticRoutes from './routes/semantic.routes.js';
-import { askChatbot } from './controllers/chatbot.controller.js';
 
 dotenv.config();
 
@@ -20,14 +21,15 @@ app.use(express.json());
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/products', productRoutes);
 
-app.use('/api/orders', orderRoutes);
-app.use('/api/semantic', semanticRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
+app.use('/api/v1/ai', aiRoutes);
+app.use('/api/v1/ai', semanticRoutes);
 
-app.use('/api/chatbot', chatbotRoutes);
-app.post('/api/chat', askChatbot);
+app.use('/api/v1/ai', chatbotRoutes);
 
 // Error handler
 app.use(errorHandler);

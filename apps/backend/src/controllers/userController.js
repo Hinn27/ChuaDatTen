@@ -9,15 +9,24 @@ const getUserProfile = async (req, res, next) => {
     try {
         const userId = req.params.id;
         const user = await userService.getUserProfile(userId);
-        
+
         if (!user) {
-            res.status(404);
-            throw new Error('User not found');
+            return res.status(404).json({
+                success: false,
+                error: {
+                    code: 'USER_NOT_FOUND',
+                    message: 'User not found',
+                },
+            });
         }
 
-        res.json(user);
+        return res.status(200).json({
+            success: true,
+            data: user,
+            message: 'Lay thong tin user thanh cong',
+        });
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 

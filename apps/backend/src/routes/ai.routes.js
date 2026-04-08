@@ -1,9 +1,9 @@
 import express from 'express';
-import { askChatbot } from '../controllers/chatbot.controller.js';
+import { generateAiText } from '../controllers/ai.controller.js';
 import { authenticateJWT } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-router.post('/chat', authenticateJWT, askChatbot);
+router.post('/generate', authenticateJWT, generateAiText);
 
 export default router;
