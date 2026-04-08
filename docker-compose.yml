@@ -1,5 +1,31 @@
-version: "3.8"
+version: "3.9"
+
 services:
+    backend:
+        build:
+            context: .
+            dockerfile: apps/backend/Dockerfile
+        container_name: refood-backend
+        restart: unless-stopped
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_started
+        env_file:
+            - .env
+        environment:
+            NODE_ENV: development
+            PORT: 3000
+            DATABASE_URL: postgresql://root:password@db:5432/ecommerce
+            REDIS_URL: redis://redis:6379
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./apps/backend:/app/apps/backend
+            - /app/apps/backend/node_modules
+        command: npm run dev
+
     db:
         image: ankane/pgvector:latest
         container_name: ecommerce-db
@@ -18,5 +44,31 @@ services:
             timeout: 5s
             retries: 5
 
+    redis:
+        image: redis:7-alpine
+        container_name: refood-redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis_data:/data
+
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: refood-pgadmin
+        restart: unless-stopped
+        depends_on:
+            db:
+                condition: service_healthy
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@refood.local
+            PGADMIN_DEFAULT_PASSWORD: admin123
+        ports:
+            - "5050:80"
+        volumes:
+            - pgadmin_data:/var/lib/pgadmin
+
 volumes:
     postgres_data:
+    redis_data:
+    pgadmin_data:
