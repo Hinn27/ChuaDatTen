@@ -1,6 +1,3 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
     AppBar,
@@ -13,7 +10,6 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore.js";
 import useCartStore from "../../stores/useCartStore.js";
@@ -34,14 +30,9 @@ export function SiteHeader() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-    // Safely get store values
-    const isLoggedIn = useSafeStore(
-        useAuthStore,
-        (state) => state?.isLoggedIn ?? false,
-    );
-    const getTotalItemsFn = useSafeStore(useCartStore, (state) =>
-        state?.getTotalItems,
-    );
+    // Call hooks at top level (Rules of Hooks)
+    const isLoggedIn = useAuthStore((state) => state?.isLoggedIn ?? false);
+    const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
 
     let totalItems = 0;
     try {
@@ -132,9 +123,7 @@ export function SiteHeader() {
                         size="small"
                     >
                         <Badge
-                            badgeContent={
-                                totalItems > 0 ? totalItems : null
-                            }
+                            badgeContent={totalItems > 0 ? totalItems : null}
                             color="error"
                         >
                             <ShoppingCartIcon />
@@ -155,14 +144,4 @@ export function SiteHeader() {
             </Toolbar>
         </AppBar>
     );
-}
-
-// Helper to safely use hooks
-function useSafeStore(hook, selector) {
-    try {
-        return hook(selector);
-    } catch (err) {
-        console.error("Store access error:", err);
-        return undefined;
-    }
 }
