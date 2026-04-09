@@ -1,16 +1,4 @@
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {
-    AppBar,
-    Badge,
-    Box,
-    Button,
-    IconButton,
-    Toolbar,
-    Typography,
-    useMediaQuery,
-    useTheme,
-} from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore.js";
 import useCartStore from "../../stores/useCartStore.js";
 
@@ -27,10 +15,7 @@ export function SiteHeader() {
     const navigate = useNavigate();
     const { member } = useParams();
     const currentMember = member || "a";
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-    // Call hooks at top level (Rules of Hooks)
     const isLoggedIn = useAuthStore((state) => state?.isLoggedIn ?? false);
     const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
 
@@ -45,103 +30,89 @@ export function SiteHeader() {
     }
 
     return (
-        <AppBar
-            position="sticky"
-            elevation={0}
-            sx={{
-                background: "rgba(255,255,255,0.85)",
-                backdropFilter: "blur(12px)",
-                borderBottom: "1px solid",
-                borderColor: "grey.200",
+        <header
+            style={{
+                position: "sticky",
+                top: 0,
+                zIndex: 100,
+                background: "rgba(255,255,255,0.95)",
+                borderBottom: "1px solid #e5e7eb",
+                backdropFilter: "blur(8px)",
             }}
         >
-            <Toolbar
-                sx={{
+            <div
+                style={{
                     maxWidth: 1200,
-                    width: "100%",
-                    mx: "auto",
-                    px: { xs: 2, md: 3 },
+                    margin: "0 auto",
+                    padding: "12px 16px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
                 }}
             >
-                {/* Logo */}
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        cursor: "pointer",
-                        mr: 4,
-                    }}
+                <button
+                    type="button"
                     onClick={() => navigate(`/${currentMember}/shop`)}
-                >
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: 800,
-                            background:
-                                "linear-gradient(135deg, #FF4B2B, #FF9A2B)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                        }}
-                    >
-                        🍽️ Refood
-                    </Typography>
-                </Box>
-
-                {/* Desktop Nav */}
-                {!isMobile && (
-                    <Box sx={{ display: "flex", gap: 1, flex: 1 }}>
-                        {NAV_LINKS.map((link) => (
-                            <Button
-                                key={link.key}
-                                onClick={() =>
-                                    navigate(`/${currentMember}/${link.key}`)
-                                }
-                                sx={{
-                                    color: "text.primary",
-                                    fontWeight: 500,
-                                    textTransform: "none",
-                                }}
-                            >
-                                {link.label}
-                            </Button>
-                        ))}
-                    </Box>
-                )}
-
-                {/* Right side actions */}
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        ml: "auto",
+                    style={{
+                        border: "none",
+                        background: "transparent",
+                        cursor: "pointer",
+                        fontWeight: 800,
+                        fontSize: 22,
+                        color: "#ff4b2b",
                     }}
                 >
-                    {/* Cart */}
-                    <IconButton
-                        onClick={() => navigate(`/${currentMember}/cart`)}
-                        size="small"
-                    >
-                        <Badge
-                            badgeContent={totalItems > 0 ? totalItems : null}
-                            color="error"
-                        >
-                            <ShoppingCartIcon />
-                        </Badge>
-                    </IconButton>
+                    Refood
+                </button>
 
-                    {/* Login button */}
-                    {!isMobile && (
-                        <Button
-                            size="small"
-                            onClick={() => navigate("/auth")}
-                            sx={{ textTransform: "none" }}
+                <nav style={{ display: "flex", gap: 8, marginRight: "auto" }}>
+                    {NAV_LINKS.map((link) => (
+                        <Link
+                            key={link.key}
+                            to={`/${currentMember}/${link.key}`}
+                            style={{
+                                textDecoration: "none",
+                                color: "#111827",
+                                padding: "6px 10px",
+                                borderRadius: 8,
+                                fontWeight: 500,
+                            }}
                         >
-                            Đăng nhập
-                        </Button>
-                    )}
-                </Box>
-            </Toolbar>
-        </AppBar>
+                            {link.label}
+                        </Link>
+                    ))}
+                </nav>
+
+                <button
+                    type="button"
+                    onClick={() => navigate(`/${currentMember}/cart`)}
+                    style={{
+                        border: "1px solid #d1d5db",
+                        background: "white",
+                        borderRadius: 8,
+                        padding: "6px 10px",
+                        cursor: "pointer",
+                    }}
+                >
+                    Gio hang ({totalItems})
+                </button>
+
+                <button
+                    type="button"
+                    onClick={() => navigate(isLoggedIn ? "/profile" : "/auth")}
+                    style={{
+                        border: "1px solid #ff4b2b",
+                        background: isLoggedIn ? "white" : "#ff4b2b",
+                        color: isLoggedIn ? "#ff4b2b" : "white",
+                        borderRadius: 8,
+                        padding: "6px 10px",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                    }}
+                >
+                    {isLoggedIn ? "Tai khoan" : "Dang nhap"}
+                </button>
+            </div>
+        </header>
     );
 }

@@ -1,14 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Box,
-  Chip,
-  IconButton,
-} from '@mui/material'
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import useCartStore from '../../stores/useCartStore.js'
 
 /**
@@ -46,131 +36,126 @@ export function ProductCard({ product, showAddToCart = true }) {
       name: product.name,
       price: product.price,
       image: product.image,
-    })
+    }, member || 'a')
   }
 
   return (
-    <Card
-      elevation={0}
+    <article
       onClick={() => navigate(`/${member || 'a'}/products/${product.id}`)}
-      sx={{
-        borderRadius: 4,
+      style={{
+        borderRadius: 16,
         overflow: 'hidden',
-        border: '1px solid',
-        borderColor: 'grey.200',
+        border: '1px solid #e5e7eb',
         cursor: 'pointer',
-        transition: 'all 0.3s ease',
+        transition: 'all 0.2s ease',
         position: 'relative',
-        '&:hover': {
-          boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
-          transform: 'translateY(-4px)',
-        },
+        background: '#fff',
       }}
     >
       {/* Discount badge */}
       {discount > 0 && (
-        <Chip
-          label={`-${discount}%`}
-          size="small"
-          sx={{
+        <span
+          style={{
             position: 'absolute',
-            top: 12,
-            left: 12,
+            top: 10,
+            left: 10,
             zIndex: 2,
             fontWeight: 700,
-            backgroundColor: '#FF4B2B',
-            color: '#fff',
+            backgroundColor: '#ff4b2b',
+            color: '#ffffff',
+            padding: '2px 8px',
+            borderRadius: 999,
+            fontSize: 12,
           }}
-        />
+        >
+          -{discount}%
+        </span>
       )}
 
-      <CardMedia
-        component="img"
-        height={160}
-        image={product.image}
+      <img
+        src={product.image}
         alt={product.name}
-        sx={{ objectFit: 'cover' }}
+        style={{ width: '100%', height: 160, objectFit: 'cover', display: 'block' }}
       />
 
-      <CardContent sx={{ p: 2 }}>
+      <div style={{ padding: 12 }}>
         {product.category && (
-          <Chip
-            label={product.category}
-            size="small"
-            sx={{
-              mb: 1,
-              fontSize: '0.7rem',
-              height: 22,
-              backgroundColor: 'grey.100',
-              color: 'text.secondary',
+          <span
+            style={{
+              marginBottom: 8,
+              fontSize: 11,
+              display: 'inline-block',
+              padding: '2px 8px',
+              borderRadius: 999,
+              backgroundColor: '#f3f4f6',
+              color: '#6b7280',
             }}
-          />
+          >
+            {product.category}
+          </span>
         )}
 
-        <Typography
-          variant="subtitle2"
-          sx={{
+        <div
+          style={{
             fontWeight: 700,
-            color: '#1A1A2E',
-            mb: 0.5,
+            color: '#1a1a2e',
+            marginBottom: 4,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}
         >
           {product.name}
-        </Typography>
+        </div>
 
         {product.description && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: 'text.secondary',
+          <p
+            style={{
+              color: '#6b7280',
+              margin: '0 0 8px 0',
+              fontSize: 12,
+              lineHeight: 1.4,
+              overflow: 'hidden',
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              mb: 1,
-              lineHeight: 1.4,
             }}
           >
             {product.description}
-          </Typography>
+          </p>
         )}
 
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 800, color: '#FF4B2B' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ fontWeight: 800, color: '#ff4b2b' }}>
               {formatPrice(product.price)}
-            </Typography>
+            </div>
             {product.originalPrice && (
-              <Typography
-                variant="caption"
-                sx={{ textDecoration: 'line-through', color: 'text.disabled' }}
-              >
+              <div style={{ textDecoration: 'line-through', color: '#9ca3af', fontSize: 12 }}>
                 {formatPrice(product.originalPrice)}
-              </Typography>
+              </div>
             )}
-          </Box>
+          </div>
 
           {showAddToCart && (
-            <IconButton
+            <button
+              type="button"
               onClick={handleAddToCart}
-              size="small"
-              sx={{
-                backgroundColor: '#FF4B2B',
-                color: '#fff',
-                '&:hover': {
-                  backgroundColor: '#e0412a',
-                  boxShadow: '0 4px 12px rgba(255,75,43,0.4)',
-                },
+              style={{
+                backgroundColor: '#ff4b2b',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '6px 10px',
+                fontWeight: 700,
+                cursor: 'pointer',
               }}
             >
-              <AddShoppingCartIcon sx={{ fontSize: 18 }} />
-            </IconButton>
+              + Gio
+            </button>
           )}
-        </Box>
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </article>
   )
 }
