@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AppPageLayout } from '../../../components/common/AppPageLayout.jsx'
 import { ProductList } from '../../../components/product/ProductList.jsx'
 import { getMemberProfile } from '../../../shared/constants/memberProfiles.js'
@@ -11,6 +11,7 @@ import useProductStore from '../../../stores/useProductStore.js'
  * MemberShopPage - Trang landing theo member/category owner.
  */
 export function MemberShopPage() {
+  const navigate = useNavigate()
   const { member } = useParams()
   const profile = getMemberProfile(member)
   const setActiveMember = useCartStore((state) => state.setActiveMember)
@@ -36,10 +37,10 @@ export function MemberShopPage() {
         </Typography>
 
         <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
-          <Button component={Link} to={`/${member}/products`} variant="contained" sx={{ textTransform: 'none' }}>
+          <Button onClick={() => navigate(`/${member}/products`)} variant="contained" sx={{ textTransform: 'none' }}>
             Xem danh sách món
           </Button>
-          <Button component={Link} to={`/${member}/cart`} variant="outlined" sx={{ textTransform: 'none' }}>
+          <Button onClick={() => navigate(`/${member}/cart`)} variant="outlined" sx={{ textTransform: 'none' }}>
             Xem giỏ hàng
           </Button>
         </Box>

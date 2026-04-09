@@ -1,6 +1,6 @@
 import { Alert, Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CartItem } from "../../../components/cart/CartItem.jsx";
 import { CartSummary } from "../../../components/cart/CartSummary.jsx";
 import { AppPageLayout } from "../../../components/common/AppPageLayout.jsx";
@@ -11,6 +11,7 @@ import useCartStore from "../../../stores/useCartStore.js";
  * MemberCartPage - Trang giỏ hàng theo member route.
  */
 export function MemberCartPage() {
+    const navigate = useNavigate();
     const { member } = useParams();
     const profile = getMemberProfile(member);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
@@ -52,8 +53,7 @@ export function MemberCartPage() {
             )}
 
             <Button
-                component={Link}
-                to={`/${member}/products`}
+                onClick={() => navigate(`/${member}/products`)}
                 variant="text"
                 sx={{ mt: 2, textTransform: "none" }}
             >
