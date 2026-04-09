@@ -30,53 +30,22 @@ export function SiteHeader() {
     }
 
     return (
-        <header
-            style={{
-                position: "sticky",
-                top: 0,
-                zIndex: 100,
-                background: "rgba(255,255,255,0.95)",
-                borderBottom: "1px solid #e5e7eb",
-                backdropFilter: "blur(8px)",
-            }}
-        >
-            <div
-                style={{
-                    maxWidth: 1200,
-                    margin: "0 auto",
-                    padding: "12px 16px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 12,
-                }}
-            >
+        <header className="rf-header">
+            <div className="rf-header-inner">
                 <button
                     type="button"
                     onClick={() => navigate(`/${currentMember}/shop`)}
-                    style={{
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                        fontWeight: 800,
-                        fontSize: 22,
-                        color: "#ff4b2b",
-                    }}
+                    className="rf-brand"
                 >
                     Refood
                 </button>
 
-                <nav style={{ display: "flex", gap: 8, marginRight: "auto" }}>
+                <nav className="rf-nav">
                     {NAV_LINKS.map((link) => (
                         <Link
                             key={link.key}
                             to={`/${currentMember}/${link.key}`}
-                            style={{
-                                textDecoration: "none",
-                                color: "#111827",
-                                padding: "6px 10px",
-                                borderRadius: 8,
-                                fontWeight: 500,
-                            }}
+                            className="rf-nav-link"
                         >
                             {link.label}
                         </Link>
@@ -86,13 +55,7 @@ export function SiteHeader() {
                 <button
                     type="button"
                     onClick={() => navigate(`/${currentMember}/cart`)}
-                    style={{
-                        border: "1px solid #d1d5db",
-                        background: "white",
-                        borderRadius: 8,
-                        padding: "6px 10px",
-                        cursor: "pointer",
-                    }}
+                    className="rf-cart-btn"
                 >
                     Gio hang ({totalItems})
                 </button>
@@ -100,15 +63,7 @@ export function SiteHeader() {
                 <button
                     type="button"
                     onClick={() => navigate(isLoggedIn ? "/profile" : "/auth")}
-                    style={{
-                        border: "1px solid #ff4b2b",
-                        background: isLoggedIn ? "white" : "#ff4b2b",
-                        color: isLoggedIn ? "#ff4b2b" : "white",
-                        borderRadius: 8,
-                        padding: "6px 10px",
-                        cursor: "pointer",
-                        fontWeight: 600,
-                    }}
+                    className={`rf-auth-btn ${isLoggedIn ? "is-logged" : ""}`}
                 >
                     {isLoggedIn ? "Tai khoan" : "Dang nhap"}
                 </button>
