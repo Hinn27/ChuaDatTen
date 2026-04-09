@@ -19,7 +19,6 @@ import {
     CircularProgress,
     Container,
     FormControl,
-    Grid,
     InputAdornment,
     InputLabel,
     MenuItem,
@@ -29,6 +28,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/common/LoadingSpinner";
@@ -347,7 +347,7 @@ function MemberCCategoryPage() {
                     }}
                 >
                     <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={7} md={8}>
+                        <Grid size={{ xs: 12, sm: 7, md: 8 }}>
                             <TextField
                                 fullWidth
                                 placeholder="Tìm món theo tên, vùng miền..."
@@ -366,7 +366,7 @@ function MemberCCategoryPage() {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={5} md={4}>
+                        <Grid size={{ xs: 12, sm: 5, md: 4 }}>
                             <FormControl size="small" fullWidth>
                                 <InputLabel>Sắp xếp</InputLabel>
                                 <Select
@@ -433,11 +433,7 @@ function MemberCCategoryPage() {
                         <Grid container spacing={3} sx={{ mb: 4 }}>
                             {products.map((product) => (
                                 <Grid
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                    md={4}
-                                    lg={3}
+                                    size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                                     key={product.id}
                                 >
                                     <Card sx={productCardSx}>

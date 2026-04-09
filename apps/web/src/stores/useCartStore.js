@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 
+const EMPTY_ITEMS = []
+
 /**
  * @typedef {Object} CartItem
  * @property {string|number} id - Product ID
@@ -20,7 +22,7 @@ const useCartStore = create((set, get) => ({
   /** @type {CartItem[]} */
   get items() {
     const { activeMember, itemsByMember } = get()
-    return itemsByMember[activeMember] || []
+    return itemsByMember[activeMember] || EMPTY_ITEMS
   },
 
   /**
@@ -154,6 +156,26 @@ const useCartStore = create((set, get) => ({
     const activeMember = member || get().activeMember
     const items = get().itemsByMember[activeMember] || []
     return items.reduce((sum, item) => sum + item.quantity, 0)
+  },
+
+  // Backward-compatible aliases for existing hooks/components
+  addToCart: (product, quantity = 1, member) => {
+    const safeQuantity = Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1
+    for (let index = 0; index < safeQuantity; index += 1) {
+      get().addItem(product, member)
+    }
+  },
+
+  removeFromCart: (productId, member) => {
+    get().removeItem(productId, member)
+  },
+
+  updateCartItem: (productId, quantity, member) => {
+    get().updateQuantity(productId, quantity, member)
+  },
+
+  emptyCart: (member) => {
+    get().clearCart(member)
   },
 }))
 
