@@ -1,8 +1,6 @@
 import { useProductStore } from '../stores/useProductStore'
 
-/**
- * Custom hook cho sản phẩm
- */
+/// Custom hook cho sản phẩm
 export function useProducts() {
     const products = useProductStore((state) => state.products)
     const selectedProduct = useProductStore((state) => state.selectedProduct)
@@ -23,9 +21,7 @@ export function useProducts() {
     }
 }
 
-/**
- * Custom hook cho chi tiết sản phẩm
- */
+// Custom hook cho chi tiết sản phẩm
 export function useProductDetail() {
     const selectedProduct = useProductStore((state) => state.selectedProduct)
     const loading = useProductStore((state) => state.loading)
@@ -40,9 +36,7 @@ export function useProductDetail() {
     }
 }
 
-/**
- * Custom hook cho tìm kiếm sản phẩm
- */
+// Custom hook cho tìm kiếm sản phẩm
 export function useSearchProducts() {
     const products = useProductStore((state) => state.products)
     const loading = useProductStore((state) => state.loading)

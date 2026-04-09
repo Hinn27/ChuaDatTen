@@ -26,10 +26,11 @@ export function CartSummary({
 }) {
     const navigate = useNavigate();
     const { member } = useParams();
-    const items = useCartStore((state) => state.items);
     const getTotalPrice = useCartStore((state) => state.getTotalPrice);
+    const getTotalItems = useCartStore((state) => state.getTotalItems);
     const subtotal = getTotalPrice();
-    const total = subtotal + (items.length > 0 ? shippingFee : 0);
+    const totalItems = getTotalItems();
+    const total = subtotal + (totalItems > 0 ? shippingFee : 0);
 
     return (
         <Box

@@ -43,8 +43,11 @@ export function SiteHeader() {
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
     const user = useAuthStore((state) => state.user);
     const logout = useAuthStore((state) => state.logout);
-    const items = useCartStore((state) => state.items);
-    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+    const getTotalItems = useCartStore((state) => state.getTotalItems);
+    const totalItems =
+        getTotalItems && typeof getTotalItems === "function"
+            ? getTotalItems()
+            : 0;
 
     const handleLogout = async () => {
         await logout();
