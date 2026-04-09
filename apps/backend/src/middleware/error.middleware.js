@@ -9,3 +9,6 @@ export function errorHandler(err, req, res, next) {
         },
     });
 }
+
+// Backward-compatible alias used by app.js
+export const centralErrorHandler = errorHandler;
