@@ -1,13 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
+import express from 'express'
 
-// Health Check
+const router = express.Router()
+
+// Health check
 router.get('/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date() });
-});
+    res.json({ status: 'ok' })
+})
 
-// User Routes
-router.get('/users/:id', userController.getUserProfile);
-
-module.exports = router;
+export default router
