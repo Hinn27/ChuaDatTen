@@ -44,15 +44,18 @@ export function SiteHeader() {
     const user = useAuthStore((state) => state?.user ?? null);
     const logout = useAuthStore((state) => state?.logout);
     const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
-    
+
     let totalItems = 0;
     try {
-        if (typeof getTotalItemsFn === 'function') {
+        if (typeof getTotalItemsFn === "function") {
             const count = getTotalItemsFn();
-            totalItems = typeof count === 'number' ? count : 0;
+            totalItems = typeof count === "number" ? count : 0;
+            console.log("[DEBUG SiteHeader] totalItems:", totalItems, "type:", typeof totalItems);
+        } else {
+            console.warn("[DEBUG SiteHeader] getTotalItemsFn is not a function:", typeof getTotalItemsFn);
         }
     } catch (err) {
-        console.error('Error calculating total items:', err);
+        console.error("Error calculating total items:", err);
         totalItems = 0;
     }
 
