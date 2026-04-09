@@ -4,17 +4,17 @@ import { useAuthStore } from '../stores/useAuthStore'
 /**
  * Axios API client instance
  * BaseURL:
- * - Dev: ưu tiên same-origin '/api/v1' để đi qua Vite proxy (tránh CORS trên browser)
+ * - Dev: luôn dùng same-origin '/api/v1' để đi qua Vite proxy (tránh CORS trên browser)
  * - Prod: dùng VITE_API_BASE_URL nếu có, fallback localhost
  * Includes JWT interceptor và error handling
  */
 const envBaseUrl = import.meta.env.VITE_API_BASE_URL
-const defaultBaseUrl = import.meta.env.DEV
+const resolvedBaseUrl = import.meta.env.DEV
   ? '/api/v1'
-  : 'http://localhost:3000/api/v1'
+  : (envBaseUrl || 'http://localhost:3000/api/v1')
 
 const api = axios.create({
-  baseURL: envBaseUrl || defaultBaseUrl,
+  baseURL: resolvedBaseUrl,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
