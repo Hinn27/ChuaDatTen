@@ -19,11 +19,13 @@ function formatPrice(price) {
  * @param {Object} props
  * @param {Object} props.product - { id, name, image, price, originalPrice, category, description }
  * @param {boolean} [props.showAddToCart] - Hiện nút thêm giỏ hàng
+ * @param {string} [props.memberOverride] - Ép member đích khi điều hướng
  */
-export function ProductCard({ product, showAddToCart = true }) {
+export function ProductCard({ product, showAddToCart = true, memberOverride }) {
     const navigate = useNavigate();
     const { member } = useParams();
     const addItem = useCartStore((state) => state.addItem);
+    const routeMember = memberOverride || member || "a";
 
     const discount = product.originalPrice
         ? Math.round(
@@ -42,13 +44,13 @@ export function ProductCard({ product, showAddToCart = true }) {
                 price: product.price,
                 image: product.image,
             },
-            member || "a",
+            routeMember,
         );
     };
 
     return (
         <article
-            onClick={() => navigate(`/${member || "a"}/products/${product.id}`)}
+            onClick={() => navigate(`/${routeMember}/products/${product.id}`)}
             className="rf-product-card"
         >
             {/* Discount badge */}
