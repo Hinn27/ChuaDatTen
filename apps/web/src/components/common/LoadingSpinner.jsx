@@ -11,3 +11,5 @@ export function LoadingSpinner({ message = 'Dang tai du lieu...' }) {
   )
 }
 
+export default LoadingSpinner
+
