@@ -412,3 +412,217 @@ h3 {
         padding: 12px 0;
     }
 }
+
+/* Shared home-like header/footer for internal pages */
+.shared-home-wrap {
+    width: min(1420px, 92vw);
+    margin: 0 auto;
+}
+
+.shared-home-header {
+    position: sticky;
+    top: 0;
+    z-index: 130;
+    background: rgba(23, 51, 52, 0.96);
+    backdrop-filter: blur(12px);
+}
+
+.shared-home-header-inner {
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.shared-home-logo {
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-family: "Fraunces", serif;
+    font-size: 1.12rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+}
+
+.shared-home-nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.shared-home-nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition:
+        transform 180ms ease,
+        color 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease;
+}
+
+.shared-home-nav-link-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 0.82rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.shared-home-nav-link:hover,
+.shared-home-nav-link:focus-visible {
+    color: var(--rf-accent, #ffbe30);
+    transform: translateY(-1px);
+    border-color: rgba(255, 190, 48, 0.38);
+    background: rgba(255, 190, 48, 0.08);
+}
+
+.shared-home-actions {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 0.7rem;
+}
+
+.shared-home-action {
+    min-height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.68rem;
+    padding: 0 0.78rem;
+    cursor: pointer;
+}
+
+.shared-home-action-primary {
+    background: rgba(255, 190, 48, 0.12);
+    border-color: rgba(255, 190, 48, 0.36);
+}
+
+.shared-home-action:hover,
+.shared-home-action:focus-visible {
+    color: #ffbe30;
+    border-color: rgba(255, 190, 48, 0.45);
+    background: rgba(255, 190, 48, 0.08);
+}
+
+.shared-home-footer {
+    margin-top: auto;
+    padding: 2.3rem 0 1.2rem;
+    color: #eef4f3;
+    background: #173334;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.shared-home-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap: 1.3rem;
+}
+
+.shared-home-footer h3,
+.shared-home-footer h4 {
+    margin: 0;
+    font-family: "Fraunces", serif;
+    font-size: 1.05rem;
+    color: #fff;
+}
+
+.shared-home-footer p {
+    margin: 0.55rem 0 0;
+    color: rgba(240, 247, 246, 0.86);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.shared-home-footer ul {
+    margin: 0.65rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.44rem;
+}
+
+.shared-home-footer a {
+    text-decoration: none;
+    color: rgba(240, 247, 246, 0.86);
+    font-size: 0.84rem;
+    font-weight: 600;
+    transition: color 180ms ease;
+}
+
+.shared-home-footer a:hover,
+.shared-home-footer a:focus-visible,
+.shared-home-footer a.is-active {
+    color: #ffbe30;
+}
+
+.shared-home-store-badges {
+    margin-top: 0.9rem;
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+
+.shared-home-store-badges span {
+    min-height: 30px;
+    padding: 0 0.7rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.74rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.shared-home-footer-link-plain {
+    color: rgba(240, 247, 246, 0.86);
+}
+
+.shared-home-footer-bottom {
+    margin-top: 1.25rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    color: rgba(238, 244, 243, 0.8);
+    font-size: 0.75rem;
+}
+
+@media (max-width: 1024px) {
+    .shared-home-header-inner {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.65rem 0;
+    }
+
+    .shared-home-nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .shared-home-actions {
+        margin-left: 0;
+    }
+
+    .shared-home-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .shared-home-footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shared-home-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

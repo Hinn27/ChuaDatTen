@@ -3,12 +3,12 @@ import useAuthStore from "../../stores/useAuthStore.js";
 import useCartStore from "../../stores/useCartStore.js";
 
 /**
- * Header chung cho toàn bộ ứng dụng - MINIMAL VERSION FOR DEBUGGING
+ * Header chung cho toàn bộ ứng dụng
  */
 const NAV_LINKS = [
-    { label: "Shop", key: "shop" },
-    { label: "Products", key: "products" },
-    { label: "Cart", key: "cart" },
+    { label: "Danh mục", key: "shop" },
+    { label: "Sản phẩm", key: "products" },
+    { label: "Giỏ hàng", key: "cart" },
 ];
 
 export function SiteHeader() {
@@ -30,43 +30,45 @@ export function SiteHeader() {
     }
 
     return (
-        <header className="rf-header">
-            <div className="rf-header-inner">
+        <header className="shared-home-header">
+            <div className="shared-home-wrap shared-home-header-inner">
                 <button
                     type="button"
-                    onClick={() => navigate(`/${currentMember}/shop`)}
-                    className="rf-brand"
+                    onClick={() => navigate("/")}
+                    className="shared-home-logo"
                 >
-                    Refood
+                    Cỏ Lau
                 </button>
 
-                <nav className="rf-nav">
+                <nav className="shared-home-nav">
                     {NAV_LINKS.map((link) => (
                         <Link
                             key={link.key}
                             to={`/${currentMember}/${link.key}`}
-                            className="rf-nav-link"
+                            className="shared-home-nav-link shared-home-nav-link-pill"
                         >
                             {link.label}
                         </Link>
                     ))}
                 </nav>
 
-                <button
-                    type="button"
-                    onClick={() => navigate(`/${currentMember}/cart`)}
-                    className="rf-cart-btn"
-                >
-                    Gio hang ({totalItems})
-                </button>
+                <div className="shared-home-actions">
+                    <button
+                        type="button"
+                        onClick={() => navigate(`/${currentMember}/cart`)}
+                        className="shared-home-action"
+                    >
+                        Giỏ hàng ({totalItems})
+                    </button>
 
-                <button
-                    type="button"
-                    onClick={() => navigate(isLoggedIn ? "/profile" : "/auth")}
-                    className={`rf-auth-btn ${isLoggedIn ? "is-logged" : ""}`}
-                >
-                    {isLoggedIn ? "Tai khoan" : "Dang nhap"}
-                </button>
+                    <button
+                        type="button"
+                        onClick={() => navigate(isLoggedIn ? "/profile" : "/auth")}
+                        className="shared-home-action shared-home-action-primary"
+                    >
+                        {isLoggedIn ? "Tài khoản" : "Đăng nhập"}
+                    </button>
+                </div>
             </div>
         </header>
     );
