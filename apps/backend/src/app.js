@@ -1,7 +1,6 @@
 
 import cors from 'cors'
 import express from 'express'
-import morgan from 'morgan'
 
 // Import routes
 import aiRoutes from './routes/ai.routes.js'
@@ -20,7 +19,6 @@ const app = express()
 
 // Middleware
 app.use(cors())
-app.use(morgan('dev'))
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ limit: '10mb', extended: true }))
 
