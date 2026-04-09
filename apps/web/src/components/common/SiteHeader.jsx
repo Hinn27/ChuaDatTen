@@ -40,14 +40,21 @@ export function SiteHeader() {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-    const user = useAuthStore((state) => state.user);
-    const logout = useAuthStore((state) => state.logout);
-    const getTotalItems = useCartStore((state) => state.getTotalItems);
-    const totalItems =
-        getTotalItems && typeof getTotalItems === "function"
-            ? getTotalItems()
-            : 0;
+    const isLoggedIn = useAuthStore((state) => state?.isLoggedIn ?? false);
+    const user = useAuthStore((state) => state?.user ?? null);
+    const logout = useAuthStore((state) => state?.logout);
+    const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
+    
+    let totalItems = 0;
+    try {
+        if (typeof getTotalItemsFn === 'function') {
+            const count = getTotalItemsFn();
+            totalItems = typeof count === 'number' ? count : 0;
+        }
+    } catch (err) {
+        console.error('Error calculating total items:', err);
+        totalItems = 0;
+    }
 
     const handleLogout = async () => {
         await logout();

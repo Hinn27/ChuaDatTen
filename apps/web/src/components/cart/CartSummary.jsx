@@ -26,10 +26,27 @@ export function CartSummary({
 }) {
     const navigate = useNavigate();
     const { member } = useParams();
-    const getTotalPrice = useCartStore((state) => state.getTotalPrice);
-    const getTotalItems = useCartStore((state) => state.getTotalItems);
-    const subtotal = getTotalPrice();
-    const totalItems = getTotalItems();
+    const getTotalPriceFn = useCartStore((state) => state?.getTotalPrice);
+    const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
+    
+    let subtotal = 0;
+    let totalItems = 0;
+    
+    try {
+        if (typeof getTotalPriceFn === 'function') {
+            const price = getTotalPriceFn();
+            subtotal = typeof price === 'number' ? price : 0;
+        }
+        if (typeof getTotalItemsFn === 'function') {
+            const count = getTotalItemsFn();
+            totalItems = typeof count === 'number' ? count : 0;
+        }
+    } catch (err) {
+        console.error('Error calculating cart totals:', err);
+        subtotal = 0;
+        totalItems = 0;
+    }
+    
     const total = subtotal + (totalItems > 0 ? shippingFee : 0);
 
     return (
