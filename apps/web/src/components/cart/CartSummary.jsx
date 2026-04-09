@@ -26,6 +26,7 @@ export function CartSummary({
 }) {
     const navigate = useNavigate();
     const { member } = useParams();
+    const items = useCartStore((state) => state.items);
     const getTotalPriceFn = useCartStore((state) => state?.getTotalPrice);
     const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
 
@@ -36,16 +37,10 @@ export function CartSummary({
         if (typeof getTotalPriceFn === "function") {
             const price = getTotalPriceFn();
             subtotal = typeof price === "number" ? price : 0;
-            console.log("[DEBUG CartSummary] subtotal:", subtotal);
-        } else {
-            console.warn("[DEBUG CartSummary] getTotalPriceFn is not a function:", typeof getTotalPriceFn);
         }
         if (typeof getTotalItemsFn === "function") {
             const count = getTotalItemsFn();
             totalItems = typeof count === "number" ? count : 0;
-            console.log("[DEBUG CartSummary] totalItems:", totalItems);
-        } else {
-            console.warn("[DEBUG CartSummary] getTotalItemsFn is not a function:", typeof getTotalItemsFn);
         }
     } catch (err) {
         console.error("Error calculating cart totals:", err);

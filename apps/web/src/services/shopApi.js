@@ -1,5 +1,5 @@
-import api from './api.js'
 import { MOCK_PRODUCTS } from '../shared/constants/mockProducts.js'
+import api from './api.js'
 
 const useBackendInDev = import.meta.env.VITE_USE_BACKEND === 'true'
 const shouldUseMockData = import.meta.env.DEV && !useBackendInDev
