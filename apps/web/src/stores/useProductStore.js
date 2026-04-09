@@ -3,6 +3,9 @@ import api from '../services/api.js'
 import { CATEGORIES } from '../shared/constants/categories.js'
 import { MOCK_PRODUCTS } from '../shared/constants/mockProducts.js'
 
+const useBackendInDev = import.meta.env.VITE_USE_BACKEND === 'true'
+const shouldUseMockData = import.meta.env.DEV && !useBackendInDev
+
 /**
  * @typedef {Object} Product
  * @property {string|number} id
@@ -38,6 +41,16 @@ const useProductStore = create((set, get) => ({
    */
   fetchProducts: async () => {
     set({ loading: true, error: null })
+    if (shouldUseMockData) {
+      set({
+        products: MOCK_PRODUCTS,
+        selectedProduct: get().selectedProduct,
+        usingMockData: true,
+        error: null,
+        loading: false,
+      })
+      return
+    }
     try {
       const response = await api.get('/products')
       const products = Array.isArray(response.data) ? response.data : []
@@ -60,6 +73,12 @@ const useProductStore = create((set, get) => ({
    */
   fetchProductById: async (productId) => {
     set({ loading: true, error: null })
+    if (shouldUseMockData) {
+      const fallback = get().products.find((p) => `${p.id}` === `${productId}`)
+      const mockMatch = fallback || MOCK_PRODUCTS.find((p) => `${p.id}` === `${productId}`) || null
+      set({ selectedProduct: mockMatch, usingMockData: true, error: null, loading: false })
+      return
+    }
     try {
       const response = await api.get(`/products/${productId}`)
       set({ selectedProduct: response.data, usingMockData: false, loading: false })
@@ -83,6 +102,11 @@ const useProductStore = create((set, get) => ({
    */
   fetchBestSelling: async () => {
     set({ loading: true, error: null })
+    if (shouldUseMockData) {
+      const sorted = [...MOCK_PRODUCTS].sort((a, b) => (b.purchaseCountChange || 0) - (a.purchaseCountChange || 0))
+      set({ bestSellingItems: sorted, usingMockData: true, loading: false })
+      return
+    }
     try {
       const response = await api.get('/products/best-selling')
       const sorted = response.data.sort(
