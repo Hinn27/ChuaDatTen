@@ -1,5 +1,13 @@
-import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
-import { useEffect } from "react";
+import {
+    Box,
+    Button,
+    Chip,
+    Paper,
+    Skeleton,
+    Stack,
+    Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CartItem } from "../../../components/cart/CartItem.jsx";
 import { CartSummary } from "../../../components/cart/CartSummary.jsx";
@@ -17,10 +25,103 @@ export function MemberCartPage() {
     const profile = getMemberProfile(member);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
     const items = useCartStore((state) => state.items);
+    const [isBootstrapping, setIsBootstrapping] = useState(true);
 
     useEffect(() => {
         setActiveMember(member);
+        const timer = setTimeout(() => setIsBootstrapping(false), 120);
+        return () => clearTimeout(timer);
     }, [member, setActiveMember]);
+
+    const renderCartSkeleton = () => (
+        <Box
+            sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "1.2fr 0.8fr" },
+                gap: 4,
+            }}
+        >
+            <Box>
+                {Array.from({ length: 3 }).map((_, idx) => (
+                    <Paper
+                        key={idx}
+                        sx={{
+                            p: 2,
+                            mb: 2,
+                            borderRadius: 3,
+                            border: "1px solid",
+                            borderColor: "grey.200",
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: "grid",
+                                gridTemplateColumns: "80px 1fr auto",
+                                gap: 2,
+                            }}
+                        >
+                            <Skeleton
+                                variant="rounded"
+                                width={80}
+                                height={80}
+                            />
+                            <Box>
+                                <Skeleton
+                                    variant="text"
+                                    width="65%"
+                                    height={34}
+                                />
+                                <Skeleton
+                                    variant="text"
+                                    width="30%"
+                                    height={28}
+                                />
+                                <Skeleton
+                                    variant="rounded"
+                                    width={120}
+                                    height={28}
+                                    sx={{ mt: 1 }}
+                                />
+                            </Box>
+                            <Box sx={{ textAlign: "right" }}>
+                                <Skeleton
+                                    variant="text"
+                                    width={90}
+                                    height={34}
+                                />
+                                <Skeleton
+                                    variant="circular"
+                                    width={28}
+                                    height={28}
+                                    sx={{ ml: "auto" }}
+                                />
+                            </Box>
+                        </Box>
+                    </Paper>
+                ))}
+            </Box>
+            <Paper
+                sx={{
+                    p: 3,
+                    borderRadius: 4,
+                    border: "1px solid",
+                    borderColor: "grey.200",
+                    height: "fit-content",
+                }}
+            >
+                <Skeleton variant="text" width="60%" height={40} />
+                <Skeleton variant="text" width="100%" height={28} />
+                <Skeleton variant="text" width="100%" height={28} />
+                <Skeleton variant="text" width="100%" height={28} />
+                <Skeleton
+                    variant="rounded"
+                    width="100%"
+                    height={46}
+                    sx={{ mt: 2 }}
+                />
+            </Paper>
+        </Box>
+    );
 
     return (
         <AppPageLayout maxWidth="xl" containerSx={{ py: { xs: 3, md: 5 } }}>
@@ -103,7 +204,9 @@ export function MemberCartPage() {
                 </Stack>
             </Paper>
 
-            {items.length === 0 ? (
+            {isBootstrapping ? (
+                renderCartSkeleton()
+            ) : items.length === 0 ? (
                 <Paper
                     sx={{
                         textAlign: "center",

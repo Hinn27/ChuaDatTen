@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { OrderSummary } from "../../../components/checkout/OrderSummary.jsx";
 import { ShippingForm } from "../../../components/checkout/ShippingForm.jsx";
+import api from "../../../services/api.js";
 import useAuthStore from "../../../stores/useAuthStore.js";
 import useCartStore from "../../../stores/useCartStore.js";
 
@@ -36,6 +37,11 @@ function formatPrice(price) {
         style: "currency",
         currency: "VND",
     }).format(price);
+}
+
+function isValidVietnamPhone(phone) {
+    const normalized = String(phone || "").replace(/[\s.-]/g, "");
+    return /^(0\d{9}|\+84\d{9})$/.test(normalized);
 }
 
 /** Các bước checkout */
@@ -64,6 +70,7 @@ export default function CheckoutPage() {
     const clearCart = useCartStore((state) => state.clearCart);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
     const user = useAuthStore((state) => state.user);
+    const token = useAuthStore((state) => state.token);
 
     useEffect(() => {
         setActiveMember(routeMember);
@@ -110,6 +117,12 @@ export default function CheckoutPage() {
             setOrderError("Vui lòng nhập số điện thoại.");
             return false;
         }
+        if (!isValidVietnamPhone(shippingData.phone)) {
+            setOrderError(
+                "Số điện thoại không hợp lệ. Vui lòng dùng định dạng 0xxxxxxxxx hoặc +84xxxxxxxxx.",
+            );
+            return false;
+        }
         if (!shippingData.address.trim()) {
             setOrderError("Vui lòng nhập địa chỉ giao hàng.");
             return false;
@@ -147,41 +160,51 @@ export default function CheckoutPage() {
         setOrderError(null);
 
         try {
+            if (!token) {
+                setOrderError("Vui lòng đăng nhập để thanh toán.");
+                setSnackbar({
+                    open: true,
+                    message: "Vui lòng đăng nhập để tiếp tục thanh toán.",
+                    severity: "warning",
+                });
+                navigate("/login");
+                return;
+            }
+
+            const normalizedItems = items.map((item) => ({
+                productId: String(item.id),
+                quantity: Number(item.quantity || 0),
+            }));
+
             const orderPayload = {
-                shippingInfo: {
-                    fullName: shippingData.fullName.trim(),
-                    phone: shippingData.phone.trim(),
-                    address: shippingData.address.trim(),
-                    note: shippingData.note.trim(),
-                },
-                items: items.map((item) => ({
-                    product_id: item.id,
-                    quantity: item.quantity,
-                    unit_price: item.price,
-                })),
-                subtotal,
-                shipping_fee: SHIPPING_FEE,
-                total_amount: total,
-                payment_method: "cod",
+                items: normalizedItems,
+                paymentMethod: "COD",
+                address: [
+                    shippingData.address.trim(),
+                    shippingData.note.trim()
+                        ? `Ghi chú: ${shippingData.note.trim()}`
+                        : "",
+                    `Người nhận: ${shippingData.fullName.trim()} - ${shippingData.phone.trim()}`,
+                ]
+                    .filter(Boolean)
+                    .join(" | "),
+                idempotencyKey: `${routeMember}-${Date.now()}`,
             };
 
-            void orderPayload;
+            const { data: response } = await api.post(
+                "/orders/checkout",
+                orderPayload,
+            );
+            const orderResult = response?.data;
 
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            const orderResult = {
-                success: true,
-                data: {
-                    order_id: `ORD-${Date.now()}`,
-                    status: "confirmed",
-                    created_at: new Date().toISOString(),
-                    total_amount: total,
-                },
-            };
-
-            if (orderResult.success) {
-                setOrderSuccess(orderResult.data);
+            if (response?.success) {
+                setOrderSuccess({
+                    order_id: orderResult?.orderId || `ORD-${Date.now()}`,
+                    status: orderResult?.status || "CONFIRMED",
+                    total_amount: orderResult?.total || total,
+                });
                 setActiveStep(2);
-                clearCart();
+                clearCart(routeMember);
                 setSnackbar({
                     open: true,
                     message: "🎉 Đặt hàng thành công!",
@@ -197,6 +220,10 @@ export default function CheckoutPage() {
             if (error.response?.status === 409) {
                 setOrderError(
                     "Sản phẩm đã hết hàng. Vui lòng kiểm tra lại giỏ hàng.",
+                );
+            } else if (error.response?.status === 401) {
+                setOrderError(
+                    "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.",
                 );
             } else if (error.response?.status === 422) {
                 setOrderError(

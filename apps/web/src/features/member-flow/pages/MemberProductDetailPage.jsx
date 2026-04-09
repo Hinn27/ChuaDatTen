@@ -4,6 +4,7 @@ import {
     Button,
     Chip,
     Paper,
+    Skeleton,
     Stack,
     Typography,
 } from "@mui/material";
@@ -34,6 +35,50 @@ export function MemberProductDetailPage() {
         setActiveMember(member);
         fetchProductById(id);
     }, [fetchProductById, id, member, setActiveMember]);
+
+    const renderLoadingSkeleton = () => (
+        <Paper
+            sx={{
+                p: 3,
+                borderRadius: 4,
+                border: "1px solid",
+                borderColor: "grey.200",
+            }}
+        >
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                    gap: 3,
+                }}
+            >
+                <Skeleton variant="rounded" height={280} />
+                <Box>
+                    <Skeleton variant="rounded" width={120} height={28} />
+                    <Skeleton
+                        sx={{ mt: 2 }}
+                        variant="text"
+                        width="80%"
+                        height={52}
+                    />
+                    <Skeleton variant="text" width="100%" height={30} />
+                    <Skeleton variant="text" width="92%" height={30} />
+                    <Skeleton
+                        sx={{ mt: 1 }}
+                        variant="text"
+                        width={180}
+                        height={42}
+                    />
+                    <Skeleton
+                        sx={{ mt: 2 }}
+                        variant="rounded"
+                        width={190}
+                        height={44}
+                    />
+                </Box>
+            </Box>
+        </Paper>
+    );
 
     return (
         <AppPageLayout maxWidth="xl" containerSx={{ py: { xs: 3, md: 5 } }}>
@@ -118,7 +163,10 @@ export function MemberProductDetailPage() {
             </Paper>
 
             {loading ? (
-                <LoadingSpinner message="Đang tải chi tiết món ăn..." />
+                <>
+                    <LoadingSpinner message="Đang tải chi tiết món ăn..." />
+                    {renderLoadingSkeleton()}
+                </>
             ) : error ? (
                 <Alert severity="error">{error}</Alert>
             ) : (
