@@ -6,7 +6,13 @@
         "dev": "turbo run dev",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "check-types": "turbo run check-types"
+        "check-types": "turbo run check-types",
+        "setup:linux": "bash ./scripts/setup-linux-docker.sh",
+        "setup:windows": "powershell -ExecutionPolicy Bypass -File ./scripts/setup-windows-docker.ps1",
+        "docker:up": "docker compose up --build -d",
+        "docker:logs": "docker compose logs -f --tail=200",
+        "docker:down": "docker compose down",
+        "docker:clean": "docker compose down -v"
     },
     "devDependencies": {
         "prettier": "^3.7.4",

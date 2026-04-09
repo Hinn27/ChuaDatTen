@@ -7,6 +7,7 @@ import { MemberShopPage } from "../../features/member-flow/pages/MemberShopPage.
 import { HomePage } from "../../pages/HomePage.jsx";
 import LoginPage from "../../pages/LoginPage.jsx";
 import MemberBCategoryPage from "../../pages/MemberBCategoryPage.jsx";
+import MemberCCategoryPage from "../../pages/MemberCCategoryPage.jsx";
 import NotFoundPage from "../../pages/NotFoundPage.jsx";
 import OrderDetailPage from "../../pages/OrderDetailPage.jsx";
 import OrdersPage from "../../pages/OrdersPage.jsx";
@@ -25,6 +26,9 @@ export function AppRouter() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+
+            {/* Dedicated Member C Category Route */}
+            <Route path="/c/shop" element={<MemberCCategoryPage />} />
 
             {/* Member Shop Flow */}
             <Route

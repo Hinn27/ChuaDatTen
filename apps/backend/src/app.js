@@ -7,6 +7,7 @@ import aiRoutes from './routes/ai.routes.js'
 import authRoutes from './routes/auth.routes.js'
 import chatbotRoutes from './routes/chatbot.routes.js'
 import memberBRoutes from './routes/memberB.routes.js'
+import memberCRoutes from './routes/memberC.routes.js'
 import notificationRoutes from './routes/notification.routes.js'
 import orderRoutes from './routes/order.routes.js'
 import productRoutes from './routes/product.routes.js'
@@ -36,6 +37,7 @@ app.use('/api/v1/chat', chatbotRoutes)
 app.use('/api/v1/search', semanticRoutes)
 app.use('/api/v1/ai', aiRoutes)
 app.use('/api/v1/members/b', memberBRoutes)
+app.use('/api/v1/members/c', memberCRoutes)
 
 // 404 handler
 app.use((req, res) => {

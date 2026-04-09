@@ -6,6 +6,63 @@
 > - **Web Admin:** React Vite
 > - **Mobile App:** Expo
 
+## 🐳 Docker setup cho cả Linux + Windows
+
+Mục tiêu: mọi thành viên dùng chung một quy trình chạy dự án, tránh lỗi lệch môi trường.
+
+### 1) Yêu cầu
+
+- Docker Desktop (Windows) hoặc Docker Engine + Docker Compose plugin (Linux)
+- Với Windows: bật WSL2 backend trong Docker Desktop để bind mount ổn định hơn
+
+### 2) Tạo file env dùng chung
+
+Ở thư mục gốc project:
+
+```bash
+cp .env.example .env
+```
+
+Điền các key bắt buộc trong `.env` (ít nhất là Supabase/JWT).
+
+### 3) Chạy toàn bộ stack
+
+```bash
+npm run docker:up
+```
+
+Hoặc chạy setup tự động theo OS:
+
+```bash
+# Linux
+npm run setup:linux
+
+# Windows (PowerShell)
+npm run setup:windows
+```
+
+Service sau khi chạy:
+
+- Web: `http://localhost:5173`
+- Backend API: `http://localhost:3000`
+- Postgres (pgvector): `localhost:5432`
+- Redis: `localhost:6379`
+- PgAdmin: `http://localhost:5050`
+
+### 4) Xem log / dừng / reset volume
+
+```bash
+npm run docker:logs
+npm run docker:down
+npm run docker:clean
+```
+
+### 5) Lưu ý chống lỗi khác OS
+
+- Compose đã bật polling cho web (`CHOKIDAR_USEPOLLING=true`) để hot reload ổn hơn trên Windows.
+- Backend chạy `nodemon --legacy-watch` để hạn chế lỗi file watcher khi bind mount.
+- Không commit file `.env` thật; chỉ commit `.env.example`.
+
 > **Lưu ý:** Để đảm bảo codebase sạch, đồng nhất và tận dụng tối đa AI (Cursor/GitHub Copilot), **mọi thành viên BẮT BUỘC** đọc kỹ và làm theo hướng dẫn dưới đây trước khi code.
 
 ---

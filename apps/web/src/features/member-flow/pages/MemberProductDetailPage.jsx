@@ -13,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppPageLayout } from "../../../components/common/AppPageLayout.jsx";
 import { LoadingSpinner } from "../../../components/common/LoadingSpinner.jsx";
 import { ProductDetail } from "../../../components/product/ProductDetail.jsx";
+import useMemberC from "../../../hooks/useMemberC.js";
 import { getMemberProfile } from "../../../shared/constants/memberProfiles.js";
 import useCartStore from "../../../stores/useCartStore.js";
 import useProductStore from "../../../stores/useProductStore.js";
@@ -30,11 +31,33 @@ export function MemberProductDetailPage() {
     const loading = useProductStore((state) => state.loading);
     const error = useProductStore((state) => state.error);
     const fetchProductById = useProductStore((state) => state.fetchProductById);
+    const {
+        currentProduct: memberCProduct,
+        loading: memberCLoading,
+        error: memberCError,
+        fetchProductById: fetchMemberCProductById,
+    } = useMemberC();
+    const isMemberC = currentMember === "c";
+
+    const effectiveProduct = isMemberC ? memberCProduct : selectedProduct;
+    const effectiveLoading = isMemberC ? memberCLoading : loading;
+    const effectiveError = isMemberC ? memberCError : error;
 
     useEffect(() => {
         setActiveMember(member);
+        if (isMemberC) {
+            fetchMemberCProductById(id);
+            return;
+        }
         fetchProductById(id);
-    }, [fetchProductById, id, member, setActiveMember]);
+    }, [
+        fetchMemberCProductById,
+        fetchProductById,
+        id,
+        isMemberC,
+        member,
+        setActiveMember,
+    ]);
 
     const renderLoadingSkeleton = () => (
         <Paper
@@ -162,15 +185,15 @@ export function MemberProductDetailPage() {
                 </Stack>
             </Paper>
 
-            {loading ? (
+            {effectiveLoading ? (
                 <>
                     <LoadingSpinner message="Đang tải chi tiết món ăn..." />
                     {renderLoadingSkeleton()}
                 </>
-            ) : error ? (
-                <Alert severity="error">{error}</Alert>
+            ) : effectiveError ? (
+                <Alert severity="error">{effectiveError}</Alert>
             ) : (
-                <ProductDetail product={selectedProduct} />
+                <ProductDetail product={effectiveProduct} />
             )}
         </AppPageLayout>
     );

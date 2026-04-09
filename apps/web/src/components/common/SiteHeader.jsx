@@ -63,7 +63,9 @@ export function SiteHeader() {
 
                     <button
                         type="button"
-                        onClick={() => navigate(isLoggedIn ? "/profile" : "/auth")}
+                        onClick={() =>
+                            navigate(isLoggedIn ? "/profile" : "/auth")
+                        }
                         className="shared-home-action shared-home-action-primary"
                     >
                         {isLoggedIn ? "Tài khoản" : "Đăng nhập"}
