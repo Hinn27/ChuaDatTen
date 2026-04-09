@@ -18,7 +18,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore.js";
 import useCartStore from "../../stores/useCartStore.js";
 
@@ -42,7 +42,7 @@ export function SiteHeader() {
 
     const isLoggedIn = useAuthStore((state) => state?.isLoggedIn ?? false);
     const user = useAuthStore((state) => state?.user ?? null);
-    const logout = useAuthStore((state) => state?.logout);
+    const logout = useAuthStore((state) => state?.logout) ?? (() => {});
     const getTotalItemsFn = useCartStore((state) => state?.getTotalItems);
 
     let totalItems = 0;
@@ -68,7 +68,13 @@ export function SiteHeader() {
     }
 
     const handleLogout = async () => {
-        await logout();
+        try {
+            if (typeof logout === "function") {
+                await logout();
+            }
+        } catch (err) {
+            console.error("Logout error:", err);
+        }
         navigate(`/${currentMember}/shop`);
     };
 
@@ -172,7 +178,12 @@ export function SiteHeader() {
                             size="small"
                             sx={{ color: "text.primary" }}
                         >
-                            <Badge badgeContent={totalItems} color="error">
+                            <Badge
+                                badgeContent={
+                                    totalItems > 0 ? totalItems : null
+                                }
+                                color="error"
+                            >
                                 <ShoppingCartIcon />
                             </Badge>
                         </IconButton>
