@@ -36,6 +36,7 @@ app.use('/api/v1/notifications', notificationRoutes)
 app.use('/api/v1/chat', chatbotRoutes)
 app.use('/api/v1/search', semanticRoutes)
 app.use('/api/v1/ai', aiRoutes)
+app.use('/api/v1/members/b', memberBRoutes)
 
 // 404 handler
 app.use((req, res) => {

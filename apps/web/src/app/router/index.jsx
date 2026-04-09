@@ -6,6 +6,7 @@ import { MemberProductsPage } from "../../features/member-flow/pages/MemberProdu
 import { MemberShopPage } from "../../features/member-flow/pages/MemberShopPage.jsx";
 import { HomePage } from "../../pages/HomePage.jsx";
 import LoginPage from "../../pages/LoginPage.jsx";
+import MemberBCategoryPage from "../../pages/MemberBCategoryPage.jsx";
 import NotFoundPage from "../../pages/NotFoundPage.jsx";
 import OrderDetailPage from "../../pages/OrderDetailPage.jsx";
 import OrdersPage from "../../pages/OrdersPage.jsx";
@@ -65,6 +66,12 @@ export function AppRouter() {
                         <CheckoutPage />
                     </MemberGuard>
                 }
+            />
+
+            {/* Member B Dedicated Category Route */}
+            <Route
+                path="/member-b/category"
+                element={<MemberBCategoryPage />}
             />
 
             {/* Protected User Routes */}
