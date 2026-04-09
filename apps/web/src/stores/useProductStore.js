@@ -133,4 +133,5 @@ const useProductStore = create((set, get) => ({
   clearError: () => set({ error: null }),
 }))
 
+export { useProductStore }
 export default useProductStore

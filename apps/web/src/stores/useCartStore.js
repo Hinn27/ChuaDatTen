@@ -157,4 +157,5 @@ const useCartStore = create((set, get) => ({
   },
 }))
 
+export { useCartStore }
 export default useCartStore
