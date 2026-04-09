@@ -15,8 +15,10 @@ export function MemberProductDetailPage() {
     const { member, id } = useParams();
     const profile = getMemberProfile(member);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
-    const { selectedProduct, loading, error, fetchProductById } =
-        useProductStore();
+    const selectedProduct = useProductStore((state) => state.selectedProduct);
+    const loading = useProductStore((state) => state.loading);
+    const error = useProductStore((state) => state.error);
+    const fetchProductById = useProductStore((state) => state.fetchProductById);
 
     useEffect(() => {
         setActiveMember(member);

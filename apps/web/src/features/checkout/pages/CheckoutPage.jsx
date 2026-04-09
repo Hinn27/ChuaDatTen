@@ -59,9 +59,11 @@ export default function CheckoutPage() {
     const navigate = useNavigate();
     const { member } = useParams();
     const routeMember = member || "a";
-    const { items, getTotalPrice, clearCart } = useCartStore();
+    const items = useCartStore((state) => state.items);
+    const getTotalPrice = useCartStore((state) => state.getTotalPrice);
+    const clearCart = useCartStore((state) => state.clearCart);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
-    const { user } = useAuthStore();
+    const user = useAuthStore((state) => state.user);
 
     useEffect(() => {
         setActiveMember(routeMember);

@@ -15,16 +15,16 @@ export function MemberProductsPage() {
     const { member } = useParams();
     const profile = getMemberProfile(member);
     const setActiveMember = useCartStore((state) => state.setActiveMember);
-    const {
-        loading,
-        error,
-        selectedCategory,
-        usingMockData,
-        fetchProducts,
-        setCategory,
-        getCategories,
-        getFilteredProducts,
-    } = useProductStore();
+    const loading = useProductStore((state) => state.loading);
+    const error = useProductStore((state) => state.error);
+    const selectedCategory = useProductStore((state) => state.selectedCategory);
+    const usingMockData = useProductStore((state) => state.usingMockData);
+    const fetchProducts = useProductStore((state) => state.fetchProducts);
+    const setCategory = useProductStore((state) => state.setCategory);
+    const getCategories = useProductStore((state) => state.getCategories);
+    const getFilteredProducts = useProductStore(
+        (state) => state.getFilteredProducts,
+    );
 
     useEffect(() => {
         setActiveMember(member);

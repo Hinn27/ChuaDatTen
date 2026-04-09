@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router-dom'
-import useAuthStore from '../../stores/useAuthStore.js'
-import { LoadingSpinner } from './LoadingSpinner.jsx'
+import { Navigate } from "react-router-dom";
+import useAuthStore from "../../stores/useAuthStore.js";
+import { LoadingSpinner } from "./LoadingSpinner.jsx";
 
 /**
  * Route wrapper — chỉ cho phép truy cập nếu đã đăng nhập
@@ -9,15 +9,16 @@ import { LoadingSpinner } from './LoadingSpinner.jsx'
  * @param {React.ReactNode} props.children
  */
 export function ProtectedRoute({ children }) {
-  const { isLoggedIn, loading } = useAuthStore()
+    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+    const loading = useAuthStore((state) => state.loading);
 
-  if (loading) {
-    return <LoadingSpinner fullPage message="Đang xác thực..." />
-  }
+    if (loading) {
+        return <LoadingSpinner fullPage message="Đang xác thực..." />;
+    }
 
-  if (!isLoggedIn) {
-    return <Navigate to="/auth" replace />
-  }
+    if (!isLoggedIn) {
+        return <Navigate to="/auth" replace />;
+    }
 
-  return children
+    return children;
 }
