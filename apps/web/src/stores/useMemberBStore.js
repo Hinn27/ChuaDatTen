@@ -5,7 +5,7 @@
 import { create } from 'zustand'
 import memberBAPI from '../services/memberB.api'
 
-export const useMemberBStore = create((set, get) => ({
+const useMemberBStore = create((set, get) => ({
     // State
     profile: null,
     products: [],
@@ -168,4 +168,5 @@ export const useMemberBStore = create((set, get) => ({
 }))
 
 // Export for both named and default imports
+export { useMemberBStore }
 export default useMemberBStore
