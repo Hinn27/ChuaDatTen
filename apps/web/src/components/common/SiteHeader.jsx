@@ -50,9 +50,17 @@ export function SiteHeader() {
         if (typeof getTotalItemsFn === "function") {
             const count = getTotalItemsFn();
             totalItems = typeof count === "number" ? count : 0;
-            console.log("[DEBUG SiteHeader] totalItems:", totalItems, "type:", typeof totalItems);
+            console.log(
+                "[DEBUG SiteHeader] totalItems:",
+                totalItems,
+                "type:",
+                typeof totalItems,
+            );
         } else {
-            console.warn("[DEBUG SiteHeader] getTotalItemsFn is not a function:", typeof getTotalItemsFn);
+            console.warn(
+                "[DEBUG SiteHeader] getTotalItemsFn is not a function:",
+                typeof getTotalItemsFn,
+            );
         }
     } catch (err) {
         console.error("Error calculating total items:", err);
@@ -86,14 +94,14 @@ export function SiteHeader() {
                 >
                     {/* Logo */}
                     <Box
-                        component={Link}
-                        to={`/${currentMember}/shop`}
                         sx={{
                             display: "flex",
                             alignItems: "center",
                             textDecoration: "none",
                             mr: 4,
+                            cursor: "pointer",
                         }}
+                        onClick={() => navigate(`/${currentMember}/shop`)}
                     >
                         <Typography
                             variant="h5"
@@ -116,13 +124,17 @@ export function SiteHeader() {
                             {NAV_LINKS.map((link) => (
                                 <Button
                                     key={link.key}
-                                    component={Link}
-                                    to={`/${currentMember}/${link.key}`}
+                                    onClick={() =>
+                                        navigate(
+                                            `/${currentMember}/${link.key}`,
+                                        )
+                                    }
                                     sx={{
                                         color: "text.primary",
                                         fontWeight: 500,
                                         textTransform: "none",
                                         fontSize: "0.95rem",
+                                        cursor: "pointer",
                                         "&:hover": {
                                             color: "#FF4B2B",
                                             backgroundColor:
@@ -249,11 +261,13 @@ export function SiteHeader() {
                     {NAV_LINKS.map((link) => (
                         <ListItem
                             key={link.key}
-                            component={Link}
-                            to={`/${currentMember}/${link.key}`}
-                            onClick={() => setDrawerOpen(false)}
+                            onClick={() => {
+                                navigate(`/${currentMember}/${link.key}`);
+                                setDrawerOpen(false);
+                            }}
                             sx={{
                                 color: "text.primary",
+                                cursor: "pointer",
                                 "&:hover": {
                                     backgroundColor: "rgba(255,75,43,0.06)",
                                 },
@@ -274,10 +288,11 @@ export function SiteHeader() {
                         </ListItem>
                     ) : (
                         <ListItem
-                            component={Link}
-                            to="/auth"
-                            onClick={() => setDrawerOpen(false)}
-                            sx={{ color: "#FF4B2B" }}
+                            onClick={() => {
+                                navigate("/auth");
+                                setDrawerOpen(false);
+                            }}
+                            sx={{ color: "#FF4B2B", cursor: "pointer" }}
                         >
                             <ListItemText primary="Đăng nhập / Đăng ký" />
                         </ListItem>
