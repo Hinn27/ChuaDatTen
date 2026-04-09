@@ -8,6 +8,7 @@
         "dev": "nodemon src/index.js",
         "build": "echo \"No build step for backend JS\"",
         "start": "node src/index.js",
+        "test": "node --test src/**/*.test.js",
         "lint": "eslint . --ext .js",
         "db:generate": "prisma generate",
         "db:push": "prisma db push",

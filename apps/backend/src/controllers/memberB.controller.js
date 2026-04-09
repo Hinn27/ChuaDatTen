@@ -4,6 +4,14 @@
  */
 import * as memberBService from '../services/memberB.service.js'
 
+function toOptionalNumber(value) {
+    if (value === undefined || value === null || value === '') {
+        return undefined
+    }
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : undefined
+}
+
 /**
  * GET /api/v1/members/b/profile
  * Get Member B profile and configuration
@@ -41,11 +49,11 @@ export async function getMemberBProducts(req, res) {
 
         const filters = {
             category,
-            minPrice: minPrice ? parseInt(minPrice) : undefined,
-            maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
+            minPrice: toOptionalNumber(minPrice),
+            maxPrice: toOptionalNumber(maxPrice),
             sortBy,
-            page: parseInt(page),
-            limit: parseInt(limit),
+            page: toOptionalNumber(page) || 1,
+            limit: toOptionalNumber(limit) || 10,
         }
 
         const result = await memberBService.getMemberBProducts(filters)
@@ -94,7 +102,7 @@ export async function getMemberBRelatedProducts(req, res) {
         const { limit = 4 } = req.query
         const result = await memberBService.getMemberBRelatedProducts(
             productId,
-            parseInt(limit)
+            toOptionalNumber(limit) || 4
         )
         res.json({
             success: true,

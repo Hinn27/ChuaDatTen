@@ -4,6 +4,8 @@
  */
 import { memberBConfig, memberBProducts, memberBStats } from '../config/memberB.config.js'
 
+const PRODUCT_NOT_FOUND_ERROR = 'Product not found'
+
 /**
  * Get Member B profile/configuration
  * @returns {Promise<Object>} Member B config and stats
@@ -108,7 +110,7 @@ export async function getMemberBProductById(productId) {
         const product = memberBProducts.find((p) => p.id === productId && p.isActive)
 
         if (!product) {
-            throw new Error('Product not found')
+            throw new Error(PRODUCT_NOT_FOUND_ERROR)
         }
 
         return {
@@ -122,6 +124,9 @@ export async function getMemberBProductById(productId) {
         }
     } catch (error) {
         console.error('Error fetching Member B product:', error)
+        if (error.message === PRODUCT_NOT_FOUND_ERROR) {
+            throw error
+        }
         throw new Error('Failed to fetch Member B product')
     }
 }
@@ -204,10 +209,10 @@ export async function getMemberBStatistics() {
  */
 export async function getMemberBRelatedProducts(productId, limit = 4) {
     try {
-        const product = memberBProducts.find((p) => p.id === productId)
+        const product = memberBProducts.find((p) => p.id === productId && p.isActive)
 
         if (!product) {
-            throw new Error('Product not found')
+            throw new Error(PRODUCT_NOT_FOUND_ERROR)
         }
 
         const related = memberBProducts
@@ -226,6 +231,9 @@ export async function getMemberBRelatedProducts(productId, limit = 4) {
         }
     } catch (error) {
         console.error('Error fetching related products:', error)
+        if (error.message === PRODUCT_NOT_FOUND_ERROR) {
+            throw error
+        }
         throw new Error('Failed to fetch related products')
     }
 }
